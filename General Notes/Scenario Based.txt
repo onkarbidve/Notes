@@ -1,0 +1,788 @@
+ StoryTelling Format =>
+
+1.Business context - The client wanted to automate technician assignment because the existing process was manual and caused overbooking and incorrect scheduling.			
+2. Requirement -The requirement was to automatically assign the right technician when the user clicks Book Job or Book Inspection, based on availability, workload, and skills	
+3.Flow- Case → Quote → Book Job / Inspection → Work Order → Resource Booking
+4.Architecture-The solution involved ribbon customization, JavaScript for UI orchestration, a custom HTML dialog for technician selection, and plugins for availability logic.
+5.Detailed Technical Implementation - Tell why used the plugin/js/another tech	
+
+1.Business context 	
+2.Requirement 	
+3.Flow-
+4.Architecture 
+5.Detailed Technical Implementation	
+============================================================================================================================================================
+
+Processes Plugin ->		
+	1. Lead assignment process 
+	2. Lead Duplication Handling 
+	3. Batch Process implementation
+	4. Create record on button press - Generate Quote , Technician Scheduling on Book job/ Book inspection button , Agent tracking record creation 	   ,Bookable resource booking ,custom api , custom actions use
+	5. Azure functions - Image store into the blob storage
+	6. Scheduled code for updating the field based on the agents calender - updates the availaibilty of a agent - Plugin/console application
+	
+1. Plugin scenarios - 4 =>
+     ->Technician Scheduling on Book job/ Book inspection button
+	Process - Case ->Quote ->Book job/inspection ->Workorder and bookings
+		  -> Ribbon customization - Created a button , Customized js code
+		  -> Javascript - Called the Html dialog box using the Webapis and received the response from the html used for showing success/failure
+	          -> Html Dialog - show the Assignment date ,Dynamic list of Availaible agents - calls custom action and uses the response from plugin logic 			implemented
+		  -> Plugin - Availaibility of agents ->
+ 			1. Based on the number of hours agent has worked - agent with less working hours will be availaible , characterstics and category of 			case and technician matching 			
+			2. Availaibility based on the holiday and 8 hours daily schedule 
+		  	Enhancement I have done -> Reduced the unnecessary use of 2 Entities ,Enhanced the availaibility of agents - Made it dynamic instead 						   static 						
+						-> Used the html dialog and plugin showing the dynamic availibilty of agents instead of static numbers.
+						-> Optimized code , Enhanced the reusability of code by 50%
+2. Javascript - 4
+3. Power automate - 4
+4. Integration scenarios - Payment Integration and f&O integration
+
+1. Canvas apps + Mock project 
+2. PCF
+1. Introduction 
+2. Good Scenarios - Fluency + Story telling + Confidence
+============================================================================================================================================================
+
+Introduction - 
+Hello my name is Onkar Bidve. I am a Microsoft Dynamics 365 CRM and Power Platform professional with over 4 years of hands‑on experience. During this period, I have worked across core D365 modules including Sales, Field Service, Customer Service, and Customer Insights, delivering configuration, customization, and development for end‑to‑end CRM solutions.
+I have strong expertise in Power Apps and Power Automate, where I have automated business processes such as Teams/Outlook notifications, approval flows, event‑based and scheduled automation, and performed integrations with external systems. I also work with OOB configurations like business rules, workflows, and business process flows.
+On the development side, I extend CRM capabilities using C# plugins, JavaScript, and custom actions/workflow extensions.
+In my recent healthcare project, I configured business process flows, forms, and views using Power Apps and automated the complete case management lifecycle using a combination of OOB Automatic Record Creation rules, Power Automate flows, JavaScript, plugins, and custom actions. I also integrated CRM with Outlook and Teams using Power Automate to improve communication and response handling
+
+Integrations that I have done 
+1. Outlook - OOB and PA
+2. Payment integration 
+3. Finance and operation 
+4. Teams 
+5. Api based integration with the - on demand integration with the old crm system using the API 
+6. Sharepoint 
+7. Word
+
+============================================================================================================================================================	
+4 Years Experience description -
+1. March 22 - March 23 => Real estate crm =>Sales module =>Eagle Hills 1 year
+2. April 23 - Sep 23=> Hospital management project => Customer service =>Thomson medical 6 months
+3. Oct 23 - feb 25 => Field service implementation => Fiesa Internal development project 1.5 year 
+4. Mar 25 - Mar 26 => Field service implementation => SSG  1year
+5. April 26- present => BTRT
+============================================================================================================================================================
+
+Fields service implementation 
+Plugin scenarios -
+1.BPF - Case to bookings
+1.Auto Contact location record creation on contacts creation 
+2.Quote and quote product creation on button click - Incident type product ,services , service task 
+	Special case - The products price on quote products will only be fetced when the incident products are present in price list of a case   
+*3.Technician Scheduling - Book job/Inspection 
+4.Work order ,Workorder product,service and service tasks and Booking records generate on book job button 
+        Special Case - There exists a existing plugin on work order products, service, service tasks record create
+*5.Compliances checklist  Questions record create on work order - Incident type , Functional location , asset
+	Special case - Worked on Many to many relationships ,Link entity - filtered the duplicate data using the fetch xml ,Handled the records based on create ,update of it,fl and assets Distinct / filtering logic
+	Technician will answer these question on technician app and enforce the work order completion
+
+2. BPF 
+Asset to Agreement booking setup	
+1. Asset depreciation records - Tracks the asset depreciation
+2. Generating agreement booking dates and work orders based on the booking recurrence
+
+3.Product inventory
+Power Automate - 
+1.BPF Automation 
+*2.Quote - Send for approval button and approval creation 
+	Button click - status changes to send for approval .Power automate flow triggers and send email to users and wait for approval and once approval is received the status updated and level 2 approval record is created 
+3.Reminder emails to the team or user for response and resolution - 3 ,7days and 11 days 
+4. Timeoff request and time entries - Notification emails and no of booking remaining of a resource availaible
+5. Work order asset status update 
+6. Reminder notification to technicians 15 and 30 days before the booking dates 
+*7. Scheduled flow for asset status update 
+8. Payment integration
+9. F&O integartion
+10.Outlook integartion
+
+Javascript
+1.BPF - Case to bookings
+
+1.When a Case is created and a Contact is selected → system automatically fills related details like pricing, location, etc., ensuring data consistency and reducing manual effort; certain fields can be auto-filled and made read-only or hidden to avoid incorrect updates
+2.When Incident Type is selected → corresponding Work Order Type is populated to standardize service processes; the field can be auto-filled and locked (disabled) to enforce correct classification
+3.On button click actions → system validates conditions before executing, shows user confirmation dialogs, and prevents duplicate records; buttons are shown/hidden or enabled/disabled based on business rules and record state
+4.During job booking → system displays available time slots and technicians in a structured dialog, allowing users to select appropriate resources; options can be dynamically enabled/disabled based on availability
+4.Approve/Reject actions → only authorized users can take action based on their role or ownership; buttons are visible or enabled only for eligible users to enforce approval hierarchy
+5.Customer Asset vs Agreement date validation → system ensures service dates fall within valid agreement periods, preventing invalid transactions; users are notified of errors and restricted from saving until corrected, with fields optionally locked
+
+Xrm.WebApi.retrieveMultipleRecords("entity", "?$filter=field eq value").then(success, error); → fetch multiple records with filter
+Xrm.WebApi.createRecord("entity", data).then(success, error); → create new record
+Xrm.Navigation.openConfirmDialog({ text: "Are you sure?" }).then(result => { if (result.confirmed) {} }); → show confirmation dialog
+Xrm.Navigation.openAlertDialog({ text: "Message" }); → show alert message
+formContext.ui.refreshRibbon(); → refresh ribbon buttons
+Xrm.WebApi.execute(request).then(response => response.json()); → execute custom action / API
+Xrm.Navigation.openWebResource("webresource.html", options, data); → open HTML dialog
+var obj = JSON.parse(jsonString); → convert string to object
+window.postMessage(data, "*"); → send data between windows
+var userId = Xrm.Utility.getGlobalContext().userSettings.userId; → get logged-in user
+Xrm.WebApi.retrieveRecord("entity", id, "?$select=field").then(success, error); → fetch single record
+formContext.getControl("field").setNotification("Error"); → show validation error
+formContext.getControl("field").clearNotification(); → remove validation error
+
+var formContext = executionContext.getFormContext(); → get form context
+formContext.getAttribute("field").getValue(); → read field value
+formContext.getAttribute("field").setValue(value); → set field value
+formContext.getControl("field").setVisible(true/false); → show/hide field
+formContext.getAttribute("field").setRequiredLevel("required"); → make field mandatory
+formContext.getAttribute("field").addOnChange(functionName); → trigger logic on change
+formContext.getAttribute("field").fireOnChange(); → manually trigger change
+formContext.getControl("field").setNotification("Error"); → set error message
+formContext.getControl("field").clearNotification(); → clear error message
+
+Get current user security roles -
+var roles = Xrm.Utility.getGlobalContext().userSettings.roles;roles.forEach(function(role){console.log(role.name);console.log(role.id);});
+Get current user usernames var userName = Xrm.Utility.getGlobalContext().userSettings.userName;
+Get current user userid-var userId = Xrm.Utility.getGlobalContext().userSettings.userId;
+
+Important definations -
+1. Many organizations have common types of jobs that they perform. Often, these standard jobs contain products, procedures, and services that tend to vary.
+2.Asset Depreciation refers to the reduction in the value of a physical asset over time due to factors like usage, wear and tear, aging, or obsolescence. In business
+and accounting terms, it represents how much of the asset’s cost has been “used up” during its useful life.
+===========================================================================================================================================================
+
+Field service real time project implemenation
+Example Organization: ABC Power Solutions
+👉 Industry: Power Equipment & Maintenance
+👉 They provide:
+Installation of generators, transformers
+Maintenance & repair services
+Annual service contracts (AMC)
+🎯 What This Company Does
+ABC Power Solutions:
+✅ Sells equipment (Generators, UPS)
+✅ Installs them at customer sites
+✅ Provides after-sales field service
+✅ Maintains assets throughout lifecycle
+
+🔧 Types of Services They Provide
+1. Installation Service
+After selling generator → technician installs it
+2. Breakdown / Repair Service
+Customer raises issue → technician fixes it
+3. Preventive Maintenance
+Regular servicing (monthly / yearly)
+4. AMC (Annual Maintenance Contract)
+Fixed yearly service contract
+🧑‍💼 How Different Teams Work
+👨‍🔧 Field Technician
+Visits customer site
+Repairs/maintains equipment
+Updates job using mobile app
+👨‍💼 Dispatcher
+Assigns jobs
+Plans technician schedule
+📊 Service Manager
+Tracks performance, SLAs
+Monitors asset condition
+⚙️ How Dynamics 365 Field Service is Used
+Now let's map real operations into D365 Field Service
+🧱 1. Customer & Asset Setup
+When company sells a generator:
+👉 In D365:
+Account → Customer
+Customer Asset → Generator
+Stored Data:
+Asset Name
+Purchase Cost
+Install Date
+Warranty
+Depreciation details (your scenario)
+
+🔄 2. Work Order Process (Core Flow)
+Step 1: Issue Raised
+Customer calls:
+“Generator not working”
+👉 System:Work Order is created
+
+Step 2: Work Order Contains
+Customer name
+Asset (Generator)
+Issue description
+Priority
+
+Step 3: Scheduling
+Dispatcher uses:
+📅 Schedule Board
+Finds available technician
+Assigns job
+
+Step 4: Technician Work
+Technician:
+Travels to site
+Repairs generator
+
+Updates:
+Status
+Work done
+Parts used
+Time spent
+
+Step 5: Completion
+Work Order marked complete
+Customer signs (mobile app)
+
+🔁 3. Preventive Maintenance
+System automatically creates work orders:
+Example:
+Every 3 months → Service generator
+👉 Done via:
+
+Agreements in D365
+💰 4. Where Your Depreciation Scenario Fits
+Now connect your requirement:
+📉 Asset Depreciation Use Case
+ABC company wants to:
+✅ Track how generator value reduces
+✅ Decide when to replace
+✅ Avoid spending too much on old asset
+How It Works in System
+Every year
+System calculates depreciation
+Updates:
+Current asset value
+Stores history
+============================================================================================================================================================
+
+Field service
+Plugin Scenario 1 - Plugin Technician scheduling 
+I’ll explain one complete scenario I worked on around Technician Scheduling in Dynamics 365 Field Service.”
+The business problem was that technician assignment during Book Job / Book Inspection was mostly manual and partially static(fixed number of agents ), which caused overbooking, uneven workload, and ignored holidays or daily working limits. The client wanted an automated scheduling solution.
+The end‑to‑end business process was :
+Case → Quote → Book Job / Book Inspection → Work Order → Resource Booking.
+To solve this, I designed an end‑to‑end solution involving ribbon customization, JavaScript, an HTML dialog, and plugins. I created a custom ribbon button for Book Job and Book Inspection. On click, JavaScript orchestrates the flow using Dataverse Web APIs and opens a custom HTML dialog.
+The HTML dialog displays the assignment date and a dynamic list of available technicians. It calls a custom action, which triggers a plugin that calculates technician availability in real time.
+In the plugin, I implemented two key business rules.
+1.determining the avilaibility based on the number of hours the technician has worked for a day 2. Determining the availaibility based on the holidays and existing booking 3. Companies based sorting of a technician 
+First, workload‑based availability, where technicians with fewer total working hours are prioritized, along with matching case category, required characteristics, and technician skills. Second, schedule validation, where technicians are filtered based on holidays, existing bookings, and an enforced 8‑hour daily working limit.
+As an enhancement, I removed dependency on two unnecessary entities, converted static availability logic into a fully dynamic model, optimized queries, and refactored common logic to improve code reusability by about 50%. 
+From a business perspective, this solution reduced manual scheduling effort, prevented technician overbooking, improved assignment accuracy, and provided users with real‑time visibility when booking jobs.
+Overall, this scenario allowed me to work across UI, client‑side, and server‑side layers and deliver a scalable, performance‑optimized scheduling solution in Dynamics 365.
+
+Javascript - Called Html dialog using the - Xrm.Navigation.navigation showing the form notification
+Html Dialog - Used the web apis - Xrm.webapi.online.execute
+Custom action - Takes input from the JS and Gets the response from the plugin 
+Plugin - Server side business logic=> Used the APi for finding the availaibility based on calender => OrganizationRequest request = new OrganizationRequest("msdyn_SearchResourceAvailability");
+--> JsonConvert.SerializeObject(object) - convert the output into json   
+============================================================================================================================================================
+
+Field service 
+Plugin business scenario 2 -
+Business requirement -
+Track how an asset loses value over time, and automatically record that reduction every financial year until it reaches its minimum (residual value) or its useful life ends.
+Purchase Cost
+Initial value of the asset when bought
+Example: ₹100,000
+Depreciation Method (WDV / Declining Balance)
+Business chooses a method where:
+Depreciation is calculated every year on the remaining (reduced) value of the asset
+Depreciation Rate
+Fixed percentage applied annually
+Example: 20% per year
+Residual Value (Salvage Value)
+Minimum value the asset should reach
+Example: ₹10,000
+Once asset value reaches this, depreciation stops.
+In one of my scenarios, the business wanted to track asset depreciation using the declining balance method within Dynamics 365 Field Service. They needed automatic yearly depreciation calculations based on asset value, financial year, and residual value
+rate in %
+Depreciation = 100,000 × 20% = 20,000 
+New Value = 100,000 - 20,000 = 80,000
+Depreciation = Current Asset Value × Depreciation Rate
+New Value = Current Value - Depreciation
+In real projects, depreciation is usually calculated using scheduled processes, but real-time calculation is useful for on-demand scenarios. For example, when a technician or manager needs to decide whether to repair or replace an asset, they need the latest asset value instantly.
+The business requirement was to track how an asset depreciates over time using the declining balance (WDV) method within Dynamics 365 Field Service. The system needed to calculate depreciation annually based on the current asset value until it reaches the defined residual value or the end of its useful life.
+The calculation followed:
+Depreciation = Current Asset Value × Depreciation Rate
+New Value = Current Value − Depreciation
+The solution was implemented using Dynamics 365 Field Service (Dataverse) by extending the Customer Asset entity with custom fields such as Purchase Cost, Current Value, Depreciation Rate (%), Residual Value, and Last Depreciation Date. A Ribbon customization using Ribbon Workbench added a “Calculate Depreciation” button on the asset form, enabling users to trigger the calculation on demand. JavaScript was used to invoke a Custom Action, passing parameters like Asset ID and current values.
+The core business logic was implemented in a C# Plugin registered on the Custom Action, ensuring centralized and controlled execution. The plugin calculated depreciation using the declining balance method by always applying the percentage on the latest current value. It included validations to ensure that the calculated value never dropped below the residual value, and if the computed value was less than or equal to the residual value, the plugin capped the value at the residual threshold and stopped further depreciation. The plugin then updated the asset record with the new depreciated value and maintained consistency of financial data. This approach ensured accurate calculation, enforcement of business rules at the server level, and reusability of the logic across different execution points such as manual trigger and future automation.
+
+YearValuePurchase₹100,000
+Year 1₹80,000
+Year 2₹64,000
+Year 5₹32,000
+Final₹10,000
+
+🧠 How Field Service Users Use This
+👨‍🔧 Technician View
+
+Sees asset age & value
+Understands condition
+
+👨‍💼 Manager Decision
+Example:
+Repair cost = ₹25,000
+Asset value = ₹15,000
+👉 Decision:
+❌ Don’t repair
+✅ Replace asset
+📊 5. Business Benefits
+Using Field Service + Depreciation:
+✅ Better asset lifecycle visibility
+✅ Smart repair vs replace decisions
+✅ Reduced maintenance cost
+✅ Improved customer satisfaction
+
+🔗 6. Real Project Implementation (Like Alletec)
+In actual implementations:
+✔ Customizations
+Add depreciation fields in Customer Asset
+✔ Automation
+Yearly Power Automate flow
+✔ Reporting
+Power BI dashboard:
+Asset value trend
+Maintenance cost vs value
+🚀 End-to-End Workflow Summary
+Customer buys generator
+        ↓
+Asset created in D365
+        ↓
+Work orders created (repair/maintenance)
+        ↓
+Technicians perform service
+        ↓
+System tracks asset lifecycle
+        ↓
+Yearly depreciation applied
+        ↓
+Manager decides: Repair OR Replace
+============================================================================================================================================================
+
+Field service plugin scenario 3:
+Compliance based record creation 
+The business requirement was to automate compliance management within the Field Service process. The organization needed technicians to complete compliance-related checklist questions before completing a booking. These compliance requirements could vary based on the Incident Type, Asset, or Functional Location associated with the service request.
+
+The end-to-end process was:
+A Case (service requirement) is created.
+A Quote is generated.
+A technician is scheduled based on availability, characteristics, and category matching the Incident Type requirements.
+A Work Order is created after scheduling.
+Based on the Work Order's Incident Type, Asset, and Functional Location, the applicable compliance records are identified.
+Compliance checklist questions are automatically generated and linked to the Work Order for technician completion.
+
+To meet this requirement, I designed and implemented a plugin-based solution in Dynamics 365. The solution used Many-to-Many relationships between Compliance and Incident Type, Asset, and Functional Location entities. Each Compliance record contained a set of checklist questions that acted as templates.
+
+The plugin implementation included the following business rules:
+Automatically generated Work Order checklist questions based on compliances associated with the Incident Type, Asset, and Functional Location.
+Prevented duplicate questions from being created. If the same question was associated through multiple compliance sources (Incident Type, Asset, or Functional Location), only a single checklist question record was created on the Work Order.
+Enforced mandatory questions by inheriting the mandatory configuration from the Compliance Question template.
+Dynamically synchronized checklist questions whenever the Incident Type, Asset, or Functional Location on the Work Order was modified. Existing questions were recalculated, obsolete questions were removed, and new applicable questions were generated.
+
+From a technical perspective:
+Implemented FetchXML queries to retrieve Compliance records linked through Many-to-Many relationships.
+Used the intersect='true' property in FetchXML to query the intermediary relationship tables.
+Leveraged the distinct='true' (unique record retrieval) capability in FetchXML along with plugin validation logic to eliminate duplicate questions when the same compliance question was linked through multiple sources.
+Designed the plugin to consolidate compliance records from Incident Type, Asset, and Functional Location before generating checklist questions. 
+
+<fetch distinct="true">
+  <entity name="new_compliancequestion">
+    <attribute name="new_compliancequestionid" />
+    <attribute name="new_name" />
+    <attribute name="new_mandatory" />
+
+    <link-entity name="new_compliance"
+                 from="new_complianceid"
+                 to="new_complianceid"
+                 alias="comp">
+
+      <filter type="or">
+        <!-- Compliance linked to Incident Type -->
+        <condition entityname="it"
+                   attribute="msdyn_incidenttypeid"
+                   operator="eq"
+                   value="{INCIDENTTYPEID}" />
+
+        <!-- Compliance linked to Asset -->
+        <condition entityname="asset"
+                   attribute="msdyn_customerassetid"
+                   operator="eq"
+                   value="{ASSETID}" />
+
+        <!-- Compliance linked to Functional Location -->
+        <condition entityname="fl"
+                   attribute="msdyn_functionallocationid"
+                   operator="eq"
+                   value="{FUNCTIONLOCATIONID}" />
+     </filter>
+      <link-entity name="new_new_compliance_msdyn_incidenttype"
+                   from="new_complianceid"
+                   to="new_complianceid"
+                   alias="it"
+                   intersect="true"
+                   link-type="outer" />
+
+      <link-entity name="new_new_compliance_customerasset"
+                   from="new_complianceid"
+                   to="new_complianceid"
+                   alias="asset"
+                   intersect="true"
+                   link-type="outer" />
+
+      <link-entity name="new_new_compliance_functionallocation"
+                   from="new_complianceid"
+                   to="new_complianceid"
+                   alias="fl"
+                   intersect="true"
+                   link-type="outer" />
+
+    </link-entity>
+  </entity>
+</fetch>
+
+Some compliances
+1. Safety Compliance
+2. Asset Compliance
+3. Regulatory Compliance
+4. Environmental Compliance
+============================================================================================================================================================
+
+Integration -
+Payment integration
+Critical Part – Security Challenge
+
+“The main challenge here is that webhook endpoints are public and can be abused.”
+“Anyone can send a fake HTTP request to our endpoint and mark a payment as successful.”
+signature generated using the payload and secret HMAC SHA256
+Signature is not a unique identifier. It is a cryptographic hash used to verify authenticity and integrity of data.
+
+HMAC-SHA256 cryptographic signature - razorpay_payment_id and secret to create the signature
+why create the signature and check with razorpay if it is security how http endpoint is abused tell me as a beginnerThink of Razorpay like a secure bank, and your website's backend server like a digital warehouse.If you do not create and check that cryptographic signature, a malicious user (hacker) can trick your server into giving away digital products, courses, or services for free.Here is exactly how an attacker abuses a standard HTTP endpoint if you skip the signature check.The Cheat: How an Endpoint Gets AbusedImagine you have an online store selling an e-book for ₹500. Your backend server has a public HTTP endpoint waiting to receive success messages, like: https://yourwebsite.com.Scenario A: The Honest FlowA good user goes to your checkout page.They pay Razorpay ₹500.Razorpay tells your frontend, "Hey, they paid! Here is the order_id and payment_id."Your frontend sends those details to your payment-success HTTP endpoint.Your server verifies the signature, sees it is genuine, and sends the e-book.Scenario B: The Hacker Abuse (Without Signature Checks)A hacker opens your checkout page.Instead of paying, the hacker cancels the payment or closes the window.The hacker uses a basic, free tool (like Postman or a browser extension) to send a fake HTTP request directly to your public endpoint:URL: https://yourwebsite.comData Sent: {"order_id": "order_123", "payment_id": "pay_fake999"}The Vulnerability: If your server only checks if a payment_id exists in the request, it will blindly trust this fake data.The Result: Your server marks the fake order as "Paid" and sends the hacker the e-book for free.Why the Cryptographic Signature Stops the HackerTo prevent this abuse, Razorpay introduces a secret code blueprint that only your backend server and Razorpay's servers know: your Key Secret. The hacker does not know this secret code.When Razorpay processes a real payment, it hashes the text "order_id|payment_id" using that Secret Key to create the unique razorpay_signature.When the hacker tries to send fake data to your endpoint, they have to guess what the signature should be.The hacker sends fake data: {"order_id": "order_123", "payment_id": "pay_fake999", "razorpay_signature": "random_guess_123"}Your server takes the fake order_id and payment_id, links them together (order_123|pay_fake999), and mathematically mixes them with your actual private Key Secret.Your server calculates the real expected signature. Let's say it should mathematically be abcde789.Your server compares its calculation (abcde789) with the hacker's guess (random_guess_123).The Match Fails: Your server instantly knows someone is lying, rejects the request, and denies the hacker access.Without that signature verification, an HTTP endpoint is just an unprotected open door where anyone can text you "I paid" and your system will believe them.
+============================================================================================================================================================
+
+Power Automate - Use cases
+1. Notificatons
+2. Approval flow - Wait , send the notification 
+3. Use the connectors of third party systems - integration with the external systems using the connectors and apis - payment gateway , f&O 
+4. Data migaration 
+5. Event based automations - Record updation ,creation using the connector crud operations
+6. Document Management - Document creation using the data mapping e.g pdf , word document , Files & Storage Automation 
+7. Perform business Logic & Decision Automation - Condition-based branching Switch cases For each loops Do Until loops Expression-based logic
+8. Trigger based automate ,sheduled flows and manual/ondemand flows 
+9. AI & Automation - Ai builder 
+10. Process mining - Finding out the bottlenecks in business processes, accessibility checker
+
+- Duplication logic implementation using the power automate while integrating finance and operation where I improved the efficieny of a flow using using the data operation for data synchronization which used to be done using the loops - here i decreased the execution time of flow by around 60 %.
+
+- Power Automate can be seamlessly integrated with Dynamics 365 Finance and Operations to extend business processes beyond the ERP application through low-code automation. Power Automate serves as a powerful integration layer, connecting F&O with Dynamics 365 CRM, Dataverse, SharePoint, Teams, Outlook, and other enterprise applications to facilitate data synchronization, document management, collaboration, and real-time communication. It also enables organizations to streamline approval-driven processes such as purchase requisitions, vendor-related approvals, and other finance and procurement workflows, while delivering a modern user experience through Microsoft Teams, Outlook, and the Power Automate Approvals platform. When a business event occurs within F&O, Power Automate can automatically trigger workflows to perform validations, initiate approvals, send notifications, update related systems, or return decisions back to F&O, ensuring end-to-end process automation. In addition,  This event-driven approach reduces manual processing, improves approval turnaround time, strengthens collaboration, and allows F&O to remain the core system of record while Power Automate provides the integration and automation layer around it.By leveraging Microsoft’s low-code platform, organizations can rapidly deliver business solutions, improve productivity, and drive digital transformation with minimal custom development.
+ 
+- Points to cover
+Real-time notifications through Teams and Outlook.
+Cross-application integration between ERP, CRM, SharePoint, and external systems.
+Approval anywhere experience on desktop, web, and mobile.
+Reduced dependency on custom development using low-code capabilities.
+Improved process visibility and auditability through approval history and flow monitoring.
+Faster adoption because users interact through familiar Microsoft tools rather than logging into F&O for every action
+
+
+============================================================================================================================================================
+BTRT - 
+1.Customer insights journey - Marketing module
+->Event and Event registrations = 1:N
+->Order products created with event for any order
+	OP and order = N:1 
+	OP and event = N:1
+
+Scenario 1 -
+1. Business Context
+In my recent project I have worked on the customer insights- Journey domain, the client was conducting multiple ceremonies and in‑person events, but all the marketing communication was manual. They used Excel for registrations and Outlook for sending emails, which resulted in low attendance and no proper tracking.
+The goal was to implement Customer Insights – Journeys to automate
+1. the entire event marketing lifecycle.
+2. Marketing the products through the scheduled notification to the customer
+
+As a developer, I worked on form creation, email configuration ,trigger configuration, automation, journey design
+
+2.Requirement 
+The main requirements were
+Automate the full event communication: confirmation, reminders, and post‑event follow‑ups.
+
+Role - 
+Create the custom triggers(When Registration is done) and segments(Group of contact/leads registered for the upcoming event) for the creating the journies.
+Build segments and scoring to identify highly engaged leads.	
+
+3.Flow 
+1.Event registration done through the ecomm website and f&O intgration the customer were created in the crm system 
+
+2.Data(customers ,orders and orderprooducts) synced from f&O to CRM and if the contact already exists using the matching rules (email or phone).
+If the contact exists, it updates the existing record.
+If not, it automatically creates a new contact.
+
+3.After the contact is created or updated with the specific order
+CI automatically creates an Event Registration record and links it to the correct Event using the hidden Event ID.
+
+4.I built a Real‑Time Journey that triggers on Event Registration Created
+Immediately send confirmation
+1 day before → reminder
+1 hour before → final reminder
+After event → branch based on attendance (Attended vs No‑show)
+
+5. Architecture
+The architecture included
+Dataverse as the core data layer for Contacts, Leads, and Event Registrations.
+Customer Insights – Journeys for real‑time event journeys, emails.
+
+6.Technical implementation - 
+I configured the Event entity ,the product would be associated with the event .
+I used Real‑Time Journeys with event‑based triggers to automate all communications.
+I created trigges and segments for Upcoming Event Registrants 
+Personalized emails were built using dynamic content such as event name, join link, and contact details.
+Also Created the journey for regular customer engagement like sending regular emails for the contact with the specific month
+
+7.Components used -
+1. Event , event registrations 
+2. Segments , Custom triggers 
+3. Email configuration 
+4. Journeys ,forms 
+
+2. Event related orderproducts document template generation
+--> Customization on creating the word documents collectiong the names from order products and printing in word
+
+3. Plugin - 
+1. Requirement - 
+For the past same customers availaible orders completed. Creating the order product records from the past transaction records for taking refrence 
+===========================================================================================================================================================
+
+D365CRM Azure Funtion scenario context 
+# Case Study: D365 CRM Document Generation + Currency Rate Sync (Condensed)
+
+Part A — Order Product Document Generation (Ceremony Booking Template)
+
+1. Business Context Each order product/ceremony type has its own predefined Word template (e.g., a ceremony booking form with named boxes/sections per ceremony). Staff needed a way to generate a filled document per order on demand — pulling the correct template for each product on the order and populating it with that order's specific product/ceremony details — instead of manually opening the right template and typing values into each box by hand.
+
+2. Requirement On clicking a Generate button on selecting event , the system should: fetch the Word template associated with each product on that event ,map each order product's data to the correct named box/placeholder in its template, fill it in, and return the completed document — without the user leaving the order form or handling any template manually.
+
+3. Flow
+
+User clicks "Generate" after selecting event
+      │	
+      ▼
+JavaScript (ribbon button) → Azure Function (HTTP-triggered)
+      │  1. Retrieve the order's line items (order products)
+      │  2. For each product, fetch its associated Word template
+      │     (stored as an attachment on the Product/related activity record)
+      │  3. Map each product's fields to the named ceremony box in that template
+      │  4. Fill the template (OpenXML — locate each named box, insert the mapped value)
+      ▼
+Filled document returned / attached back to the order
+
+4. Architecture Ribbon/JavaScript button on the Order form → HTTP-triggered Azure Function → ServiceClient to retrieve order products and each product's linked template attachment → DocumentFormat.OpenXml to locate named content controls/bookmarks ("ceremony boxes") per template and fill them per-product → completed document attached back to the order (Note) or returned for download.
+
+5. Why a Function
+
+Not a plugin: template lookup (per product), OpenXML manipulation of named boxes across a variable number of line items, and returning a generated file to the user synchronously on a button click are outside what a sandboxed plugin should be doing — this is presentation-layer, on-demand generation work, not a Dataverse save-time rule.
+
+Not Power Automate, for real client-driven reasons, not just preference:
+No SharePoint dependency — PA's "Populate a Word template" action requires the template in SharePoint/OneDrive; here, templates are stored per-Product as CRM attachments, and the mapping is dynamic per order (which products, how many, which template each maps to) — not a single fixed template PA's action is built around.
+
+Per-product, per-box mapping logic — each product's template has different named boxes; the mapping from "this order product" to "this specific box in this specific template" is conditional, data-driven logic, not a flat field-to-placeholder substitution PA's template action supports.
+CI/CD & code review — customer-facing documents often must go through git-based review/testing; a Flow isn't unit-testable and doesn't fit that pipeline.
+Synchronous, on-demand trigger (button click), not event-driven — the user needs the generated document back in the same interaction, which fits an HTTP-triggered Function called directly from the form's JavaScript, not an async webhook/event flow.
+
+---
+
+## Part B — Nightly Currency Exchange Rate Sync
+
+**1. Business Context**
+Dataverse's transactioncurrency.exchangerate field was updated manually/infrequently, causing stale conversions across every order, invoice, and report touching a non-base currency.
+
+**2. Requirement**
+Daily, fetch current rates for every active currency vs. base currency, update `exchangerate` on each record automatically.
+
+**3. Flow**
+
+Timer (daily) → RetrieveMultiple all active Currency records
+  → one external API call for all rates → match by ISO code
+  → batched update (ExecuteMultipleRequest) → log summary
+
+**4. Architecture**
+Timer-triggered Function, `ServiceClient` bulk read, one external rate call per run, `ExecuteMultipleRequest` batch write, Polly retry+jitter on the single call.
+
+**5. Why a Function — honest version**
+- **Close call, not decisive.** Currency list is small (a few dozen); a PA Flow (Recurrence → HTTP → loop → Update) could do this too.
+- **Real justification is governance, not technical necessity:** this feed is foundational — every order/invoice/report depends on it being correct, so a client with engineering maturity wants it under source control, code review, and unit tests, given the downstream blast radius of it being wrong.
+
+============================================================================================================================================================
+Invoice generation  - Azure functions
+
+1. Real Estate Property Management Invoice Generation Scenario
+
+I'll explain one scenario I worked on around automated invoice generation and digital signing for a real estate property management company using Azure Functions.
+
+The client managed thousands of residential apartments and commercial properties across multiple locations. Every month, tenants had to be invoiced for rent, maintenance charges, parking fees, utility charges, clubhouse fees, and other recurring costs. Since the company managed approximately 30,000 properties, generating invoices manually was not feasible. The client wanted a fully automated solution that could generate, digitally sign, store, and track invoices at the end of each billing cycle.
+
+The end-to-end business process was:
+
+Property Lease
+Monthly Charges Calculation
+Invoice Generation
+Digital Signing
+Storage
+Tenant Notification
+
+At the end of every month, a Timer Trigger Azure Function executed automatically. The function retrieved all active tenant records from Dataverse that required invoicing. Since the number of records was large, Dataverse paging was implemented to fetch all invoice-eligible records across multiple pages.
+
+After collecting the tenant data, the Azure Function retrieved the organization's digital signing certificate from Azure Key Vault using Managed Identity authentication. The certificate was loaded only once and reused throughout the batch process to reduce Key Vault calls and improve performance.
+
+The system then began invoice processing using controlled parallelism with Parallel.ForEachAsync. For each tenant, the system calculated monthly rent, maintenance fees, parking charges, utility charges, late payment penalties, and applicable taxes. A PDF invoice was generated containing all billing details and then digitally signed using the certificate from Key Vault.
+
+Once signed, the invoice was uploaded to Azure Blob Storage and the corresponding Dataverse records were updated with invoice status, generation date, invoice number, and document location.
+
+To ensure reliability, every invoice was processed independently inside a try-catch block. If invoice generation failed for a specific tenant due to missing lease data or calculation issues, that tenant record was flagged for manual review while the remaining invoices continued processing without interruption.
+As part of the optimization effort, I implemented Dataverse paging, certificate reuse, configurable concurrency controls, reusable service components, and centralized logging. This significantly reduced invoice processing time and improved maintainability.
+
+From a business perspective, the solution eliminated manual invoice generation, reduced billing errors, improved regulatory compliance through digital signatures, and ensured that all tenant invoices were generated within the required billing window.
+
+============================================================================================================================================================
+PCF- Powerapps componenet framework 
+
+Recently, I worked on two PCF proof-of-concepts. The first was a custom International Phone Number control for a Model-Driven App. The requirement was to capture phone numbers with country codes in a single field. I developed a field-type PCF using TypeScript, HTML, and CSS, where users could select a country code and enter the phone number. I handled data binding through getOutputs(), rendering through updateView(), and customized the UI to improve the user experience compared to the standard textbox.
+
+The second was a Dataset PCF for Opportunities. Instead of displaying opportunities in a standard grid, I built a card-based view that displayed Opportunity Topic and Estimated Revenue in a more visual format. I used Dataset APIs such as context.parameters.dataset, sortedRecordIds, records[id], and getFormattedValue() to retrieve records and dynamically generate the UI. I also implemented click functionality to navigate users directly to the Opportunity record from the card.
+
+Through these implementations, I gained hands-on experience with PCF lifecycle methods (init, updateView, getOutputs, destroy), manifest configuration, dataset controls, event handling, custom styling, deployment using Power Platform CLI, and integrating PCFs into Model-Driven Apps.
+
+The standard controls did not provide the desired user experience. PCF allowed us to create a customized UI while still leveraging Dataverse data and Model-Driven App capabilities. It helped improve usability without changing the underlying data model.
+
+If the interviewer asks "Field PCF vs Dataset PCF?"
+
+You can answer:
+
+For the phone control, I used a Field PCF because it worked on a single Dataverse column. For the Opportunity card view, I used a Dataset PCF because it needed to render multiple records from a view and provide a custom presentation layer.
+============================================================================================================================================================
+Plugins 
+
+1.Prevalidation 
+- Data validation before security checks 
+- Outside the database transaction 
+
+1. A plugin in PreValidation runs before the platform's security validation, but the operation will still undergo security checks later in the pipeline. The plugin does not bypass security. The benefit is that your validation logic can execute before Dataverse spends effort on the standard security and transaction processing
+2.Earliest stage, best for validation and cancellation of operations before Dataverse performs security and transactional processing.
+3.PreValidation runs before security checks and before the database transaction starts. Because it is outside the transaction, we can perform validation and reject invalid requests early, avoiding the overhead of creating a transaction and rolling it back later.
+4.Security checks 
+PreValidation executes before Dataverse performs its security checks. This allows business validations to run first and reject invalid requests early. If the plugin throws an exception in PreValidation, the request is stopped before Dataverse spends resources on security validation and transaction processing.
+
+Example - 
+1. Prevent record deletion based on its associated accounts - counter-> refrential restrict relationship - For simple parent-child deletion prevention, I would use Referential Restrict. I would choose a PreValidation plugin only when the business rule cannot be achieved through relationship behaviour .
+Plugin here can be used for restricting the record based on specific record status like active.
+2.PreValidation plugin on the Order products Update message. The plugin checked whether the order status was Closed or Fulfilled. If a business user attempted to modify restricted fields after closure, the plugin threw an exception. Since PreValidation executes before security checks and before the database transaction starts, the invalid update was rejected early, reducing unnecessary processing.
+In an ERP-integrated environment, we used PreValidation to prevent updates to invoices belonging to closed accounting periods. This ensured financial compliance while avoiding unnecessary transaction processing.
+3.Condition based record creation - e.g case can only be created if active support contract exits
+4. Approvals  - before the all approvals fulfilled cannot move further
+5. Duplicate detection before the record is saved whether the record is created within last 24 hours else check for last six months and flag record accordingly
+
+Preoperation 
+- Within database transaction 
+- After the security checks 
+- Used for modification of a data like calculation records as the validation is already done , security checks are also done ,transaction started, can securily modify the data in this stage and within db transaction as even if error occurs everything will be rolled back
+
+Note -The record is about to be saved. Let me enrich, calculate, standardize, or populate data before it hits the database
+
+Examples -
+1. Concat name by modifying target
+2. Calculate the revenue , pricing from related fields and records before the main operation or save
+3. Autopopulating the field values before the record save - could be used in case where there are bulk records getting created e.g autopopulate region 
+4. Invoice record tax calculation - security check done , validation done calculate tax 
+*5.A loan application is being created.Before saving:Credit Score ,AML Score, KYC Status
+must determine:Risk Category ,Compliance Category ,Approval Path
+
+Post operation 
+- sync - inside db transaction and User waits until execution completes.
+- Async - outside db transaction - User does not wait.
+- Operations executed after the main operation
+- Executed by the asynchronous service - async operation job
+- Used for creating records ,send notifications ,integrations ,external api calls
+
+Example - 
+1. External api call to send the data to f&O and created the scheduled process records
+2. Created records like compliances , creating work orders in batches
+3. Button click sync operations like creating quote postoperation sync
+4. Scheduling the technicians/Agents for the lead/case request - sync postoperation as the js waits for response and shows notification
+5. Creating the depriciation records on button by using the preimage
+6. Batch records creation using the batch process using the paging - sync operation 
+
+Note -
+PreOperation:
+target["field1"] = 30
+✅ Saved automatically
+
+Main operation = saved to db 
+PostOperation:
+target["field1"] = 30
+❌ Not saved
+
+Now need:
+service.Update() 
+✅ Saved 
+-Extra update call after the mainoperation as modifiying target only changes the in-memory Target object after main operation as db save is done in main operation 
+
+In PreOperation, modifying Target changes what gets saved. In PostOperation, modifying Target only changes the local object; use service.Update() if you want the database value to change 
+
+============================================================================================================================================================
+Custom Workflow Activity
+Custom Api
+Impersonization -Plugin
+Images - Plugin
+Console app
+============================================================================================================================================================
+Javascript 
+
+- Client side
+- Lightweight operations
+- Sync and async 
+
+Work scenarios worked on
+1.Developed custom button functionality using JavaScript to open HTML dialogs, capture technician assignment date/time, invoke Custom Actions, execute Plugin-based availability validation, and process responses back on the form.
+2.Utilized Dataverse Web API for record creation, data retrieval, record updates, and form/record navigation scenarios.
+3.Implemented dynamic lookup filtering using addPreSearch() and custom FetchXML based on business requirements and related record data.
+4.Developed form customizations including field visibility, enable/disable logic, tab and section management, form notifications, field-level notifications, and event handling such as OnLoad, OnChange, and OnSave.
+5.Implemented client-side data validation, prevented record save when business rules were not met, and managed asynchronous operations using async/await and Web API calls.
+6.Worked extensively with form controls, attributes, tabs, sections, and other form components to deliver dynamic user experiences.
+7.Created reusable JavaScript utilities to disable all fields on a form and make records read-only based on business conditions, record status, or security requirements.
+
+Some scenarios Implemented
+Scenario 1 :
+Html dialog box for showing the assignment date and time of technicians 
+1.Business Problem - The business problem was that technician assignment during Book Job / Book Inspection was mostly manual and partially static(fixed number of agents ), which caused overbooking, uneven workload, and ignored holidays or daily working limits. The client wanted an automated scheduling solution.
+
+2.The end‑to‑end business process was :
+Case → Quote → Book Job / Book Inspection → Work Order → Resource Booking.
+
+3.To solve this, I designed an end‑to‑end solution involving ribbon customization, JavaScript, an HTML dialog, and plugins. I created a custom ribbon button for Book Job and Book Inspection. On click, JavaScript orchestrates the flow using Dataverse Web APIs and opens a custom HTML dialog.
+The HTML dialog displays the assignment date and a dynamic list of available technicians. It calls a custom action, which triggers a plugin that calculates technician availability in real time.
+
+4.JS Implementation
+1. Init Html dialog box for showing the assignment date and time of technicians , executing the custom action which eventually triggers the plugin and collecting the response from the action which gets the availaible slots of technicians and shows on the screen on click of appointment time
+2. Used HTML , Css , webapis ,form notification,validations,promises and async and await for async operation - strucutre this properly 
+
+Scenario 2:
+custom presearch filter - country ,state ,city- oob option availaible as well using the views
+
+Scenario 3:
+Disabling all the fields by using control 
+
+Scenario 4:
+
+
+
+
+
+
+
+============================================================================================================================================================
+Tools used 
+XrmtoolBox
+1.Ribbon workbench
+2.PRT
+3.Data migration tool 
+4.security role comparison tool
+5.Bulk fetchml update
+6.Dataverse rest builder
+7.Power Platform CLI
+8.Polymorphic lookup manager
+9.Level Up
+10.Power Pane
+============================================================================================================================================================
+  

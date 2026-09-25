@@ -1,0 +1,11 @@
+function manageResolutionDateRequirement(executionContext) {
+    var formContext = executionContext.getFormContext();
+    var revenue= formContext.getAttribute("revenue").getValue();
+    var shippingmethodcode= formContext.getAttribute("shippingmethodcode");
+
+    if (revenue>=2) { // Replace 5 with your actual 'Resolved' choice value
+        shippingmethodcode.setRequiredLevel("required");
+    } else {
+        shippingmethodcode.setRequiredLevel("none");
+    }
+}

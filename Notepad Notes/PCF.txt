@@ -1,0 +1,6 @@
+1.d365 crm Limited UI / UX Customization
+2.PCF is a UI extensibility framework,it enhances the ui/ux 
+3.Data visualization beyond standard grids , improves the performance for bulk record
+4.PCF exists to address the limitations of d365 crm ui by allowing us to build modern, reusable, upgrade‑safe UI components while still respecting Dataverse security and architecture
+
+Built on the power platform command line interface (cli)

@@ -1,0 +1,242 @@
+Framework 
+1=> How will you troubleshoot the workflow issue - when for a pecific user the wf is not getting triggered
+Ans- 
+Instead of remembering 15 points, remember just 5 buckets
+👉 Whenever any troubleshooting question comes
+1. Configuration
+2. Scope / Context
+3. Data / Trigger Conditions
+4. Security / Access
+5. Execution / Logs
+
+Example -
+1. Configuration
+Workflow activated?
+Trigger set correctly?
+
+👉 2. Scope / Context
+Scope = User / BU / Org?
+Is affected user included?
+Workflow owner active?
+
+👉 3. Data / Trigger Conditions
+Are fields actually changing?
+Does condition match?
+
+👉 4. Security / Access
+Workflow owner permissions
+User access
+Email "send on behalf"
+
+👉 5. Execution / Logs
+Check System Jobs
+Failed or not triggered?
+Any plugin/flow interference?
+
+Example 
+Q.Workflow working on dev but it is not working on production 
+Ans - 1.Check for workflow configuration - activated or not => configuration 
+
+2. Check whether the owner is present in prod or activated and scope of wf =>Business unit difference , scope Check the differences with the prod and dev 
+ 
+3. Check whether the owner has privileges of entity  ,Business Unit / Team Security Differences ,Users in PROD may belong to different Business Units.,Workflow owner may not have access to secured fields in PROD.=> Security role
+
+4. Will check the Fields used in workflow are deployed on prod=>DEV data often differs from PROD data, causing conditions not to match e.g optionsetvalues 	,status etc. or missing related componenets => Dependencies=> data issue
+ 
+5. Check environment-specific configurations like email setup, mailbox, or integration settings.
+============================================================================================================================================================
+
+Framework 
+2.What happens when multiple security roles are assigned to a user? How is the level of security determined?
+=>1.Start with Core Concept
+2.Explain Behavior
+3.State Rule
+4.Give Example
+5.Add Key Insight -Note
+
+Example 
+In D365, when multiple security roles are assigned to a user, the system follows a cumulative privilege model. This means privileges from all roles are combined, and the highest level of access is applied for each privilege.
+For example, if one role gives User-level read access and another gives Business Unit-level access, the user will get Business Unit-level access.
+There is no deny concept in D365 security; access is always additive and evaluated based on the most permissive level.
+
+============================================================================================================================================================
+Some tips to talk -
+1.I have worked on similar requirements where
+2.Let me explain this with an example
+3.May I take a moment to think about that
+4.I haven’t worked on that yet, but I understand the basics.
+5.Absolutely
+6.I agree
+7.I’ve read about it, but I haven’t had a chance to apply it in a real project
+8.I haven’t worked on that specifically, but I have experience in a similar area such as…”
+9.While I’m not directly experienced with that, I’ve worked with related technologies like…”
+10.I may not have done that exact task, but I’ve handled something similar where
+11.I’m not familiar with that specific feature yet, but I have experience with similar D365 customizations and I’m confident I can learn it quickly
+
+============================================================================================================================================================
+1.When reassigning the users from one business unit to another what could be the reasons of not getting reassignemnt in msd 365 crm ?
+->
+1.Insufficient Security Privileges
+2. User Is Disabled / Not Properly Licensed
+3. Custom blocking
+
+Q.3. Where do we find settings related to numbers, currency and datetime format?
+Ans- There are two ways
+1.Personal setting > Formates > applicable to single user
+2.Advanced setting >Administration >formats - Applicable to whole system 
+
+============================================================================================================================================================
+Advantages of power automate 
+1. Seamless Integrations with external systems using the connector and apis 
+2. No code /Low code platform 
+3. Process automation – streamlines day-to-day tasks 
+4. Traceability and monitoring (easy failure tracking)
+5.Flexible execution (no strict timeout for many scenarios)
+6. Can perform sheduled automation 
+7. AI Builder & Intelligent Automation
+8. Security & compliance (enterprise-grade)
+
+Disadvantages/limitation of power automate 
+1. Only works asynchronously - can not perform real time validation 
+2. Throttling or execution error for large amount of data 
+3. Cannot get the data more than 5k records
+4. Performance Issues for Large/Complex Flows -Flows with many actions or loops can become slow
+5. Licensing and cost constraints 
+
+other 
+ ✅ Max 25 cases per Switch
+ ✅ Up to 500 Actions per Flow
+ ✅ 8 levels of Nesting Depth
+ ✅ Max 250 Variables per Flow
+ ✅ 600 Flows per user (non-solution)
+ ✅ Max Run Duration: 30 days
+ ✅ "Apply to Each" Loop: 5K–100K iterations (plan-based)
+ ✅ API Request Limit: 40K/user/day (Premium), 250K/flow/day
+ ✅ Concurrency Control: Default 25, up to 100
+ ✅ Minimum Recurrence: 60 seconds
+
+============================================================================================================================================================
+
+Limitations - 
+
+1. Workflow (Classic Workflow) – Limitations
+Cannot work across multiple entities easily; mainly tied to a single primary entity.
+Limited trigger points (Create, Update, Status Change, Assign only).
+Not suitable for complex operations / business logic.
+No loops, no advanced branching.
+Slow compared to plugins (uses async engine unless real-time).
+
+2.Business rule
+-Cannot work with multi‑select choice fields “Business rules don’t work with multi-select option sets.
+- Business rule cannot not work  on multiple entities 
+- Business rule can not used on tabs and section 
+- Business rule has limited actions 
+- cannot perform operations 
+- can call of use the apis or actions 
+- Can bypass the bulk import for scope level - forms 
+
+3.Javascript 
+- Client side - can bypass during the bulk imports 
+- Cannot perform server side operations 
+- Cannot used to query on the complex operations
+
+4. Plugin 
+- 2 minutes execution time 
+- Non developer 
+- Button click cannot call the plugin 
+
+5. Power automate 
+Always asynchronous
+Therefore cannot be used for real‑time validation or preventing save. (Microsoft Flow design – async engine)
+Action limit: 500 actions per workflow
+“Actions per workflow: 500.” [learn.microsoft.com]
+Throttling & API request limits apply
+Dataverse API limits enforce 429 errors when flows exceed request limits. [learn.microsoft.com]
+Must use FetchXML for complex Dataverse queries
+
+6. BPF limitation 
+Stage limit: Maximum 30 stages
+“A BPF can contain a maximum of 30 stages.”
+Limit on active BPFs per entity
+Default 10 activated BPFs per entity (Microsoft constraint). 
+Cannot apply heavy server‑side logic
+BPFs only guide users
+
+7. Web api
+- Concurrent request limits & rate limits
+Dataverse enforces concurrent connection limits and requests limits per 5-minute window
+Payload size limits
+Max payload per request is restricted (Dataverse API constraints). 
+============================================================================================================================================================
+=> D365 CRM – OWNER TEAM vs ACCESS TEAM
+
+OWNER TEAM
+- Can own records ✅
+- Has security roles ✅
+- Access comes from role privileges
+- Used for group ownership
+- More permanent setup
+
+ACCESS TEAM (Template-based)
+- Cannot own records ❌
+- No security roles ❌
+- Gives record-level access only
+- Access defined via template (Read, Write, etc.)
+- Created automatically per record
+- Used for collaboration (temporary access)
+============================================================================================================================================================
+1.
+Preference of Plugin over Power Automate Flow (Based on a scenario)
+-->
+1.Real time validations , Modification of data 
+2.Async post operation which takes has less execution time 
+3.Complex server side operation 
+4.Impersonization scenarios
+5.Business logic affecting security context/roles
+6.Images 
+7.Custom Actions / Custom APIs
+8.Better error handling and debugging
+
+PAF over plugin
+-->
+1.Best for async reminder notitfication 
+2.Set approval flows 
+3.Integration 
+4.Process data for data synchronization between the systems- integration
+5.Working with different third party systems - connectors
+6.schdeuled processing 
+
+2.Plugin works in DEV/UAT but fails in Production. What could be the reasons?
+-->
+1.Environment specific customized static e.g guid , url etc.
+2.Data specific issue - data not availaible like e.g - lookup valeus not present
+3.Configuration missing - fields , records missing 
+4.Security - Impersonated users not availiable , do not have priviledge 
+============================================================================================================================================================
+
+6. If in the production environment, you found an issue which will take 2 days to resolve which is on critical priority, but due to business requirement it should be resolved immediately. What would you do in that particular scenario?
+Ans - 
+First, I would analyze the impact and identify whether a temporary workaround can restore business operations. Since the issue is critical, my priority would be to minimize business downtime while simultaneously working on the permanent fix.
+Since the issue was critical and directly impacting business operations, I first assessed whether there was a safe workaround to keep the business running. The root cause was a bug in the order transaction functionality where Quantity and Name values were not getting mapped correctly. The permanent fix required code changes, testing, and deployment, which would take approximately 2 days.
+
+To minimize business impact, I coordinated with the business team and manually corrected the affected records in Production as a temporary workaround. This allowed critical transactions to continue without interruption. Simultaneously, I started working on the permanent fix in the development environment, performed testing, and followed the standard deployment process to move the fix to Production.
+
+After deploying the permanent solution, I validated that new records were being processed correctly and ensured that all manually updated records were reconciled.
+============================================================================================================================================================
+
+=>If a variable is showing as undefined when using JavaScript, what must be the most possible error?
+1. Variable not present 
+2. Variable data types different 
+3. wrong logical name in js 
+
+=>Lifecycle of Agile and Azure DevOps - Implementation of any Agile methodology in your project. What was the size of the sprint ,Team size (included Scrum Master and PO)
+Migration
+Azure Function
+Azure logic apps - Finance and operation - Practical Implement
+============================================================================================================================================================
+
+Q.How the peer reviews were done
+=>We followed a structured peer review process before moving any development to QA
+
+
+

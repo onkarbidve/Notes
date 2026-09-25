@@ -1,0 +1,17 @@
+1. Console application
+2. Custom API ,custom workflow
+3. Third party intgerations 
+4. Ribbon workbench 
+5. XRM toolbox 
+6. Payment Gateway 
+7. F&O integration
+
+8. Advanced power automate flow questions - Pagination , 
+9. Advanced plugin and js questions - link ,batchprocess
+10.Git and deployment 
+11.postman 
+12.BPF using PAF
+13.How authetication works
+14.Data Migration - oobox, bulk 
+
+1.Practise , Scenarios , Real time usecase

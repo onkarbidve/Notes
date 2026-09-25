@@ -1,0 +1,85 @@
+6. Procurement Workflow
+
+Departments submit a Procurement Request via Power Apps or InfoPath.
+SharePoint stores the request in Procurement List.
+Workflow steps:
+
+Sends to Department Head for approval
+If approved → goes to Procurement Team
+Generates purchase order documents (library templates)
+
+
+Procurement uploads PO, quotations, and billing documents.
+Status updates to “Completed” after delivery.
+
+2. Patient Admission Process
+
+Reception opens the Patient Admission Form (Power Apps).
+Fills in patient details → form submits to SharePoint Patient List.
+A Power Automate flow triggers:
+
+Notifies doctors or assigned ward
+Updates “Admission Status”
+Saves patient documents in Patient Library
+
+
+Doctors review the admission record through SharePoint dashboards.
+
+ Doctor Scheduling Process
+
+Admin/Doctors update availability via a Power Apps scheduling form.
+Data is stored in Doctor Schedule List.
+Departments can view real‑time schedules through:
+
+Calendar views
+Filtered list views
+Dashboards
+
+
+Power Automate sends reminders or change notifications.
+
+Plugin scenarios 
+1. Scheduling technician 
+2. Creating records on button click - Agent tracking records , Quote generate , Booking records , work order records 
+3. Lead duplication and assignment handling -
+			       1. Duplicate detection of lead based on the duplicate detection rules and fields - Worked on DD if created the reocrds within 				  24 hours change status - Multiple duplicate records 
+			       2. Assignment of lead to agents based on business unit 
+Tech used - Plugin , workflows
+4. Batch process - using the skip tokens and next link for synchronus behaviour
+5. 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

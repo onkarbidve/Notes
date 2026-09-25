@@ -1,0 +1,21 @@
+Environments - 
+
+1. Power apps - Basics 
+   low code /no code platform to create the applications 
+	- Can be used by the non developers because of drag and drop functionality 
+
+Types of Power Apps
+
+Canvas Apps - custom ui development - do not have relational data and model 
+Model‑Driven Apps - based on relational data 
+Power Pages -engage only with the dataverse
+
+Language used - power fx language 
+Data sources -
+
+1. Excel
+2. sharepoint 
+3. Dataverse 
+
+D365 CRM 
+

@@ -1,0 +1,61 @@
+var Demo_SendAccountToFlow = {
+
+    run: function (PrimaryControl) {
+
+        var formContext = PrimaryControl;
+
+        var accountId = formContext.data.entity.getId();
+        if (!accountId) {
+            Xrm.Navigation.openAlertDialog({ text: "Save the record first." });
+            return;
+        }
+
+        accountId = accountId.replace(/[{}]/g, "");
+
+        // ✅ Account fields
+        var payload = {
+            source: "DataverseDemo",
+            account: {
+                id: accountId,
+                name: formContext.getAttribute("name")?.getValue() || "",
+                accountNumber: formContext.getAttribute("accountnumber")?.getValue() || "",
+                email: formContext.getAttribute("emailaddress1")?.getValue() || "",
+                phone: formContext.getAttribute("telephone1")?.getValue() || "",
+                primaryContact: null,
+                address: {
+                    city: formContext.getAttribute("address1_city")?.getValue() || "",
+                    state: formContext.getAttribute("address1_stateorprovince")?.getValue() || "",
+                    country: formContext.getAttribute("address1_country")?.getValue() || ""
+                }
+            }
+        };
+
+        // ✅ Primary Contact lookup
+        var primaryContactLookup = formContext.getAttribute("primarycontactid")?.getValue();
+        if (primaryContactLookup && primaryContactLookup.length > 0) {
+            payload.account.primaryContact = {
+                id: primaryContactLookup[0].id.replace(/[{}]/g, ""),
+                name: primaryContactLookup[0].name
+            };
+        }
+
+        var flowUrl = "https://8dd046d770fded4c8b43ed5266674c.11.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/59dee848e9aa4c6fa0acf91b42dfefbf/triggers/manual/paths/invoke?api-version=1";
+
+        fetch(flowUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        })
+        .then(() => {
+            Xrm.Navigation.openAlertDialog({
+                text: "Demo payload sent to Power Automate successfully."
+            });
+        })
+        .catch(err => {
+            console.error(err);
+            Xrm.Navigation.openAlertDialog({
+                text: "Error sending payload to flow."
+            });
+        });
+    }
+};

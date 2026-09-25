@@ -1,0 +1,162 @@
+to show the image on ui 
+- format required - string URL that points to an image.
+
+
+1. customer pays --> payment gateway --->success --->transactional record in f&O-->
+If api fails ---> Even if pays it goes back to cart
+
+options - > Wants a table which holds the customer data of the customer which is paying with it success and non success message 
+
+A client-side JavaScript function (using fetch) sends a POST request to the flow's unique URL.
+
+1> Http methods 
+2>When an HTTP request is received- generated HTTPS endpoint (URL
+
+
+
+
+============================================================================================================================================================
+
+Customer Image Upload 
+1. F&O does not store customer images, it only generates the expected image URL using naming conventions. Actual image storage is intentionally left to external systems - (Mentioned in the docs)
+F&O media templates define the expected URL for an image, not the storage.
+When F&O returns customers/10001.jpg, it is applying its media template rules.
+Whether an image exists at that URL is the responsibility of the external media host.
+Refer -
+https://learn.microsoft.com/en-us/dynamics365/commerce/set-up-manage-images-retail-mpos
+
+2.When we upload an image, F&O runtime generates a value like customers/10001.jpg
+This value is not proof that the image is stored. It’s a calculated media path based on F&O’s image template rules(F&O image template rules are configuration rules that define how image URLs are constructed for business entities).
+Refer
+https://learn.microsoft.com/en-us/dynamics365/commerce/dam-upload-images
+
+3.Why F&O generates the image path even if the image is not stored
+Microsoft explicitly designed F&O so that:
+
+F&O defines the URL contract, not the storage mechanism.
+
+This is not accidental — the same article states:
+
+“You must host the images that appear in Store Commerce externally, outside of Commerce.
+
+4.This is the same pattern as invoices or documents:
+F&O stores the document URL, not the PDF itself.
+The file lives in SharePoint or Blob Storage
+
+
+
+
+https://scuob1gz3p697542003-rs.su.retail.dynamics.com/Commerce/Carts('Rtn9rnCjk~J4lg9WesCNuRIKgkcMvlSC')/Checkout?api-version=7.3
+
+{"receiptEmail":"rahim@gmail.com","tokenizedPaymentCard":null,"receiptNumberSequence":null,"cartTenderLines":[{"Amount":10,"TenderTypeId":"4","Currency":"SGD"}],"cartVersion":903139294}
+
+
+// GET Request
+fetch('https://jsonplaceholder.typicode.com/todos/1')
+  .then(response => response.json()) // Parse JSON data
+  .then(data => console.log(data))   // Execute code with data
+  .catch(error => console.error('Error:', error)); // Error handling
+
+// POST Request
+fetch('https://jsonplaceholder.typicode.com/posts', {
+  method: 'POST',
+  body: JSON.stringify({ title: 'foo', body: 'bar', userId: 1 }),
+  headers: { 'Content-type': 'application/json; charset=UTF-8' }
+})
+.then(response => response.json())
+.then(json => console.log(json));
+
+
+https://8dd046d770fded4c8b43ed5266674c.11.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/59dee848e9aa4c6fa0acf91b42dfefbf/triggers/manual/paths/invoke?api-version=1
+
+
+
+
+
+
+
+
+
+var TriggerPowerAutomateFlow = {
+
+    runFlow: function (executionContext) {
+        try {
+            var formContext = executionContext.getFormContext();
+
+            var recordId = formContext.data.entity.getId();
+            var entityName = formContext.data.entity.getEntityName();
+            var userId = Xrm.Utility.getGlobalContext().userSettings.userId;
+
+            if (!recordId) {
+                Xrm.Navigation.openAlertDialog({ text: "Please save the record first." });
+                return;
+            }
+
+            // Remove curly braces from GUID
+            recordId = recordId.replace("{", "").replace("}", "");
+            userId = userId.replace("{", "").replace("}", "");
+
+            var flowUrl ="https://8dd046d770fded4c8b43ed5266674c.11.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/59dee848e9aa4c6fa0acf91b42dfefbf/triggers/manual/paths/invoke?api-version=1";
+
+            var payload = {
+                recordId: recordId,
+                entityName: entityName,
+                userId: userId
+            };
+
+            fetch(flowUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(function (response) {
+                if (!response.ok) {
+                    throw new Error("Flow call failed");
+                }
+                return response.json();
+            })
+            .then(function () {
+                Xrm.Navigation.openAlertDialog({ text: "Flow triggered successfully." });
+            })
+            .catch(function (error) {
+                console.error(error);
+                Xrm.Navigation.openAlertDialog({ text: "Error while triggering flow." });
+            });
+
+        } catch (e) {
+            console.error(e);
+            Xrm.Navigation.openAlertDialog({ text: e.message });
+        }
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,12 @@
+We are proposing to implement product sync from F&O to CRM using Power Automate with direct API (OData) instead of batch jobs or Logic Apps.
+In this approach, Power Automate will run on a schedule (for example, every 1 hour). It will call the F&O OData API using HTTP and Azure AD authentication (App Registration). The API will return only those product records which are recently created or updated, using the standard ModifiedDateTime field. A rolling time window (for example last 48 hours) is used instead of fixed dates, so that data is never missed even if a flow run fails.
+The flow will then process each record and perform an upsert operation in CRM (Dataverse). This means if the product already exists it will be updated, otherwise it will be created. Business logic such as default unit, unit group and price list will be applied inside the flow based on the entity (business unit).
+Basic error handling will be implemented so that failure of one product does not stop the entire process. Failed records can be logged and retried in the next run automatically because of the rolling time window.
+This approach ensures that both newly created and updated products are always captured without needing any custom fields in F&O or complex tracking logic.
+
+This approach is chosen over Logic Apps for the following reasons:
+Power Automate is sufficient because the expected data volume is low (50–100 products per day). It provides faster development, easier maintenance, and better integration with Dataverse. Since this is not a high-volume or highly complex orchestration scenario, Logic Apps would add unnecessary complexity.
+Power Automate also fits well with the Power Platform ecosystem and supports solution-based deployment (DEV → UAT → PROD), environment variables, and connection references, making it suitable for enterprise deployment.
+Logic Apps is generally preferred only when there is high volume, heavy transformations, or complex integration patterns involving multiple systems. In this case, the requirement is straightforward and does not justify the additional overhead.
+
+In summary, this solution provides a simple, scalable, and reliable way to sync product data using API-based integration. It avoids limitations of DMF and connector-based issues, ensures no data loss using a rolling time window, and is easier to manage across environments compared to more complex alternatives like Logic Apps.

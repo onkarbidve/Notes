@@ -1,0 +1,19 @@
+
+1.
+Trigger not aware-
+If next rundate contains
+
+update last
+create new session
+update next run - 1hour after
+calls another flow - in loop 	
+
+2.on create of new session - runs workflow activity runs 
+3.send the event to f&O and create the logs
+
+
+
+pdate it to:
+
+Plain Text
+Next Run Date = current date/time + 5 minutes

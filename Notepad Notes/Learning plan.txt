@@ -1,0 +1,11 @@
+1. Azure functions - 1 month  - Practical  
+2. Azure Logic apps - 1 month - Practical 
+3. Azure Service bus -15 Days - Practical
+4. Power BI - 1 month
+5. CI/CD , ALM pipeline ,Git 
+
+	
+Questions - 1 hour 
+Verbal - 1 hour 
+
+

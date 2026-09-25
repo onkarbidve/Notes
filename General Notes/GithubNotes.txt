@@ -1,0 +1,561 @@
+1. Visual Studio and Github
+
+1. Push code in git repository 
+
+- Create or open git repository 
+- Make changes in code 
+- Select solution and right click and use git - commit and stash 
+- Staged all changes 
+- Commit staged
+- Push changes 
+
+2. Pull code 
+
+- Clone repository
+- Connect git account - Enter repository location
+- Pull Repository 
+- congrats you pulled successfully !
+
+3.Subbranch 
+- Sub-ordinate woking on functionality in this case without directly commiting the code to master new subranch can be created 
+- Once the changes commited then a new pull request been generated which says to merge the changes with master - review code and can merge the code - it can include created projects , changes to the code etc. 
+
+Note - 
+1. 1 solution 1 repository 
+2. To add this functionalities create a new project inside the same solution and commit changes 
+
+============================================================================================================================================================Typical GitHub Team Workflow
+Step 1: Clone the Repository
+
+Each developer gets a local copy of the repository.
+
+Shell
+git clone https://github.com/company/project.git
+
+Show more lines
+
+Repository:
+
+GitHub Remote Repository
+         |
+ ------------------
+ |       |        |
+Dev A   Dev B   Dev C
+(Local) (Local) (Local)
+
+Step 2: Pull Latest Changes
+
+Before starting work each day:
+
+Shell
+git pull origin main
+
+Show more lines
+
+This ensures everyone starts with the latest code.
+
+Step 3: Create a Feature Branch
+
+Instead of working directly on main, create a branch for your task.
+
+Shell
+git checkout -b feature/customer-form
+
+Show more lines
+
+Examples:
+
+Step 4: Develop and Commit Locally
+
+Make changes and commit them.
+
+Shell
+git add .
+
+git commit -m "Added customer registration form"
+
+Show more lines
+
+You can commit multiple times while working.
+
+Step 5: Fetch/Pull Regularly
+
+While you're working, other developers may be pushing changes.
+
+Check for updates:
+
+Shell
+git fetch
+
+Show more lines
+
+or
+
+Shell
+git pull origin main
+
+Show more lines
+
+If your branch is behind, merge or rebase latest changes.
+
+Step 6: Push Your Branch
+
+Push your feature branch to GitHub.
+
+Shell
+git push origin feature/customer-form
+
+Show more lines
+
+Now GitHub has your branch.
+
+Step 7: Create Pull Request (PR)
+
+In GitHub:
+
+Plain Text
+feature/customer-form
+
+ ↓
+
+Pull Request
+
+ ↓
+
+main
+
+Show more lines
+
+The PR contains:
+
+What changes were made
+Screenshots (if UI changes)
+Work item/task reference
+Reviewers
+Step 8: Code Review
+
+Team members review the code.
+
+Possible outcomes:
+
+✅ Approved
+
+❌ Changes requested
+
+Comments example:
+
+Plain Text
+Please move this logic into a separate service class.
+
+Show more lines
+
+Developer updates branch and pushes again.
+
+Shell
+git commit
+
+git push
+
+Show more lines
+
+The PR updates automatically.
+
+Step 9: Merge Pull Request
+
+After approval:
+
+Plain Text
+feature/customer-form
+
+ ↓
+
+ Merge
+
+ ↓
+
+ main
+
+Show more lines
+
+GitHub merges the branch into main.
+
+Step 10: Pull Latest Main Branch
+
+Other developers update their local repositories.
+
+Shell
+git checkout main
+
+git pull origin main
+
+Show more lines
+
+Everyone now has the latest code.
+
+Real Example with 3 Developers
+Initial State
+Plain Text
+main
+
+ |
+
+A
+
+Show more lines
+Developer A creates
+Plain Text
+feature/customer
+
+Show more lines
+Developer B creates
+Plain Text
+feature/order
+
+Show more lines
+
+Repository:
+
+Plain Text
+A
+
+|
+
++-- feature/customer
+
+|
+
++-- feature/order
+
+Show more lines
+
+Both work independently.
+
+Developer A Merges First
+Plain Text
+main
+
+ |
+
+A---B
+
+Show more lines
+Developer B Pulls Latest Code
+Shell
+git checkout feature/order
+
+git pull origin main
+
+Show more lines
+
+If there are conflicts:
+
+Plain Text
+Customer.cs
+
+<<<<<< HEAD
+
+My Changes
+
+======
+
+Main Branch Changes
+
+>>>>>> main
+
+Show more lines
+
+Developer resolves conflicts and commits.
+
+Developer B Merges
+Plain Text
+main
+
+ |
+
+A---B---C
+
+Show more lines
+
+Both features are now in production code.
+
+Common Branch Strategy
+Small Teams
+Plain Text
+main
+
+ ├─ feature/user-story-1
+
+ ├─ feature/user-story-2
+
+ └─ bugfix/login
+
+Show more lines
+Enterprise Teams (Azure DevOps / D365 Projects)
+Plain Text
+main
+
+ ├─ develop
+
+ │ ├─ feature/CRM-101
+
+ │ ├─ feature/CRM-102
+
+ │ └─ bugfix/CRM-205
+
+ │
+
+ ├─ release/v1.0
+
+ └─ hotfix/v1.0.1
+
+Show more lines
+Recommended Daily Routine
+
+Every morning:
+
+Shell
+git checkout main
+
+git pull origin main
+
+Show more lines
+
+Switch to your feature branch:
+
+Shell
+git checkout feature/my-work
+
+Show more lines
+
+Bring latest changes:
+
+Shell
+git merge main
+
+Show more lines
+
+Work:
+
+Shell
+git add .
+
+git commit -m "Completed task"
+
+git push
+
+Show more lines
+
+Create PR when done.
+
+For D365 CRM/Power Platform Teams
+
+A common flow is:
+
+Plain Text
+Developer
+
+ ↓
+
+Feature Branch
+
+ ↓
+
+Pull Request
+
+ ↓
+
+Code Review
+
+ ↓
+
+Main Branch
+
+ ↓
+
+Build Pipeline
+
+ ↓
+
+Deployment Pipeline
+
+ ↓
+
+DEV Environment
+
+ ↓
+
+UAT
+
+ ↓
+
+PROD
+
+Show more lines
+
+This ensures:
+
+Multiple developers can work simultaneously.
+Code reviews happen before merge.
+CI/CD pipelines validate code.
+Production remains stable.
+
+A simple rule: Never work directly on main, always create a branch → commit → push → pull request → review → merge.
+
+Provide your feedback on BizChat
+You said:
+what is conflicts
+Copilot said:
+Copilot
+
+A Git conflict (merge conflict) happens when Git cannot automatically decide which change to keep because two people modified the same piece of code differently.
+
+Example
+
+Suppose the original file contains:
+
+C#
+string name = "Customer";
+
+Show more lines
+Developer A changes it to:
+C#
+string name = "Account";
+
+Show more lines
+Developer B changes it to:
+C#
+string name = "Contact";
+
+Show more lines
+
+When Developer A merges first, main becomes:
+
+C#
+string name = "Account";
+
+`
+
+Show more lines
+
+Now Developer B tries to merge. Git sees:
+
+Main branch says: "Account"
+Developer B's branch says: "Contact"
+
+Git doesn't know which one is correct, so it creates a conflict.
+
+How a Conflict Looks
+
+Git marks the conflicting section like this:
+
+C#
+<<<<<<< HEAD
+
+string name = "Account";
+
+=======
+
+string name = "Contact";
+
+>>>>>>> feature-branch
+
+Show more lines
+
+Meaning:
+
+<<<<<<< HEAD = current branch (main)
+======= = separator
+>>>>>>> feature-branch = incoming changes
+Resolving the Conflict
+
+A developer manually decides what should remain.
+
+Keep Account:
+
+C#
+string name = "Account";
+
+Show more lines
+
+Keep Contact:
+
+C#
+string name = "Contact";
+
+Show more lines
+
+Or combine both:
+
+C#
+string displayName = "Account Contact";
+
+Show more lines
+
+Then commit the resolution:
+
+Shell
+git add .
+
+git commit -m "Resolved merge conflict"
+
+Show more lines
+Real D365 CRM Example
+
+Imagine two developers are editing the same JavaScript file:
+
+Developer A
+
+JavaScript
+formContext.getAttribute("name").setRequiredLevel("required");
+
+Show more lines
+
+Developer B
+
+JavaScript
+formContext.getAttribute("name").setRequiredLevel("none");
+
+Show more lines
+
+When merging, Git can't determine whether the field should be required or not.
+
+A conflict occurs and the team must decide the correct business requirement.
+
+When Conflicts Usually Occur
+Two developers modify the same file and same lines.
+One developer deletes a file while another edits it.
+A branch is old and hasn't been synced with main for a long time.
+How to Reduce Conflicts
+
+✅ Pull latest changes regularly
+
+Shell
+git pull origin main
+
+Show more lines
+
+✅ Create small feature branches
+
+✅ Merge frequently
+
+✅ Communicate with team members when working on the same files
+
+✅ Review incoming changes using Fetch before merging
+
+Simple Analogy
+
+Imagine two people editing the same sentence in a Word document:
+
+Original:
+
+"Customer Name"
+
+Person A changes it to:
+
+"Account Name"
+
+Person B changes it to:
+
+"Contact Name"
+
+When combining the documents, someone must decide which text is correct. That's exactly what a Git conflict is
