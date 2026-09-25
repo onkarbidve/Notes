@@ -1,0 +1,269 @@
+Mock CRM Project
+Business Scenario
+Goal: Manage Sales → Project Delivery → Billing → Support 
+
+Overview
+This custom CRM system is designed to support an IT services / consulting organization in managing its complete business lifecycle.
+The system handles everything from initial customer enquiry through sales, project delivery, billing, and post‑delivery support, using custom Dataverse entities only.
+
+
+1. High‑Level Business Process
+Customer Enquiry
+ → Sales Deal
+ → Project
+ → Project Tasks
+ → Timesheets
+ → Invoicing
+ → Support Tickets
+
+
+2. Applications
+2.1 Model‑Driven App
+Used by:
+Sales Team
+Project Managers
+Finance
+Support Team
+
+Purpose:
+
+Core business operations
+Role‑based navigation
+Dashboards
+
+Entity NamePurposeCustomerStores client detailsCustomer ContactStores client contact personsSales EnquiryCaptures initial requirementSales DealSales opportunityProjectDelivery projectProject TaskTasks under projectEmployeeInternal employeesTimesheetLogged hoursInvoiceBillingSupport TicketPost‑delivery support
+
+3.2 Key Relationships
+Core Relationships
+
+Customer (1:N) → Customer Contacts
+Customer (1:N) → Sales Enquiries
+Sales Enquiry (1:1) → Sales Deal
+Sales Deal (1:1) → Project
+Project (1:N) → Project Tasks
+Project Task (N:1) → Employee
+Project (1:N) → Timesheets
+Project (1:N) → Invoices
+Customer (1:N) → Support Tickets
+
+4. Detailed Business Process & Task Scenarios
+
+PHASE 1 – Customer & Enquiry Management (Sales)
+Custom Entity Used
+✅ Customer
+✅ Sales Enquiry
+Tasks
+
+Create customer record
+Create enquiry
+Capture:
+
+Requirement
+Expected budget
+Expected timeline
+
+Implementation
+
+Lookup: Sales Enquiry → Customer
+Choice field: Enquiry Status (New, Qualified, Rejected)
+
+Power Automate
+📌 When Enquiry = Qualified
+→ Notify Sales Manager
+→ Create Sales Deal automatically
+
+PHASE 2 – Sales Deal Management
+Custom Entity Used
+✅ Sales Deal
+Tasks
+
+Add estimated value
+Probability (%)
+Deal type (Fixed / T&M)
+Close as Won / Lost
+
+Business Rule
+
+If Deal Status = Won → Probability = 100%
+
+Power Automate
+📌 On Deal Won
+→ Create Project
+→ Copy customer & deal details
+
+PHASE 3 – Project Creation & Planning (PM)
+Custom Entity Used
+✅ Project
+Tasks
+
+Assign Project Manager
+Set start/end dates
+Define delivery model
+
+Fields
+
+Project Status: Planning, Active, Completed
+Lookup: Project → Sales Deal
+
+
+PHASE 4 – Task Management (Delivery)
+Custom Entity Used
+✅ Project Task
+Tasks
+
+Break project into tasks
+Assign tasks to employees
+Track progress
+
+Fields
+
+Task Status: Not Started, In Progress, Completed
+Estimated Hours
+Actual Hours (rollup)
+
+Canvas App Usage
+
+Employees see only tasks assigned to them
+Update status from mobile
+
+
+PHASE 5 – Employee & Timesheet Management
+Custom Entities Used
+✅ Employee
+✅ Timesheet
+Tasks
+
+Log daily hours
+Link hours to task & project
+
+Relationships
+
+Timesheet → Project
+Timesheet → Project Task
+Timesheet → Employee
+
+Business Rule
+
+Daily hours ≤ 24
+
+
+PHASE 6 – Billing & Invoicing (Finance)
+Custom Entity Used
+✅ Invoice
+Tasks
+
+Generate invoice from billable hours
+Approve invoice
+Mark as Sent / Paid
+
+Fields
+
+Invoice Status: Draft, Approved, Sent, Paid
+Total Amount (rollup from Timesheets)
+
+Power Automate
+📌 When Invoice = Approved
+→ Send invoice email to customer
+
+PHASE 7 – Support Management
+Custom Entity Used
+✅ Support Ticket
+Tasks
+
+Log issue
+Assign support agent
+Resolve & close ticket
+
+Fields
+
+Priority
+Ticket Status
+Resolution Notes
+
+
+5. Security Roles (Custom)
+
+Sales User
+
+Customer: Read
+Sales Enquiry: Create, Read, Write
+Sales Deal: Create, Read, Write
+Project: Read
+
+
+Project Manager
+
+Project: Full
+Project Task: Full
+Timesheet: Read
+
+
+Employee
+
+Project Task: Read (User)
+Timesheet: Create, Edit (User)
+
+
+Finance User
+
+Invoice: Full
+Project: Read
+
+
+Support Agent
+
+Support Ticket: Full
+Customer: Read
+
+
+6. App Sharing Strategy
+
+Model‑Driven App → via Security Roles
+Canvas App → Shared as User
+Use Azure AD Security Groups
+
+
+7. Power Platform Components Used
+✅ Dataverse (Custom Tables)
+✅ Model‑Driven App
+✅ Canvas App
+✅ Business Rules
+✅ Power Automate
+✅ Security Roles
+✅ Dashboards
+❌ JavaScript
+❌ Plugins
+
+
+
+1. tables , relationships , forms , views ,application , keys ,business rules ,flows , 	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

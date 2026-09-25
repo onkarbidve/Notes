@@ -1,0 +1,14 @@
+Advantages and disadvantages
+Plugin
+- Advantages 
+1.Strong service logic implemetation - strong , users cannot bypass logic ,execution pipeline
+2.Supports sync and async 
+3.Easy configuration - Registration
+4.Supports external service calls 
+5.
+
+- Disadvantages 
+1.2min Execution Limit
+2.Api limits like - network issue , Timeouts can exceed the 2min execution limit	 
+3.Lack of UI interaction -inability to access client-side context
+4.Asynchronous plugins cannot roll back the original transaction once the record has been committed.

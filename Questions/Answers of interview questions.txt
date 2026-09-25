@@ -1,0 +1,538 @@
+Q1.Maximum no. of tabs that can be added to a form
+-100
+============================================================================================================================================================
+Q2.Solution layering 
+Solution layering is the mechanism used by Power Platform to determine which customization is applied when multiple solutions modify the same component. Every managed solution, unmanaged customization, and Microsoft base component creates a separate layer. The topmost layer takes precedence. For example, if a form is modified by two managed solutions and later changed through an unmanaged customization, the unmanaged layer will be used. We can view these layers using the "See Solution Layers" option and troubleshoot issues caused by overlapping customizations. This concept is very important in ALM and managed solution deployments.
+============================================================================================================================================================
+Q3.Fetchxml vs queryexpression 
+QueryExpression is a C# SDK-based query model used mainly in plugins and custom development. It's easier to build and maintain programmatically, especially when query conditions are dynamic. FetchXML is an XML-based query language that supports the full aggregation and grouping feature set — QueryExpression can do basic aggregation too, but with real limitations (e.g., distinct counts via CountColumn, time zone handling when grouping by date, per-query limits). More importantly, FetchXML is the only query language that can retrieve data directly through the Web API, which is why it's used in Power Automate, JavaScript, Advanced Find, and reporting — QueryExpression can't retrieve data that way at all. From a performance perspective, there's generally no major difference for typical queries, since both QueryExpression and FetchXML pass the same SQL Server query hints straight through to the database and produce comparable execution plans. The one documented exception is FetchXML's late-materialize option, which helps with queries that have many joins or many lookup/computed columns — QueryExpression has no equivalent. I typically use QueryExpression for plugin development, and FetchXML whenever I need the full aggregation/grouping feature set or I'm working somewhere that only speaks FetchXML — Power Automate, JavaScript/Web API, Advanced Find, or reporting.
+============================================================================================================================================================
+Q4.Paging in plugins 
+What is Paging in Plugins?
+
+When retrieving a large number of records in a plugin, you should use paging with QueryExpression and PagingInfo instead of trying to retrieve everything at once.
+Why Paging?
+Dataverse returns records in pages.
+Helps avoid performance and memory issues.
+Necessary when the total records exceed the page size.
+Commonly used in batch processing plugins.Copilot said:
+Paging in Plugins (Dynamics 365 CRM)
+
+QueryExpression query = new QueryExpression("account");
+query.ColumnSet = new ColumnSet("name");
+
+query.PageInfo = new PagingInfo
+{
+    Count = 5000,
+    PageNumber = 1,
+    PagingCookie = null
+};
+
+EntityCollection results;
+List<Entity> allAccounts = new List<Entity>();
+
+do
+{
+    results = service.RetrieveMultiple(query);
+
+    allAccounts.AddRange(results.Entities);
+
+    query.PageInfo.PageNumber++;
+    query.PageInfo.PagingCookie = results.PagingCookie;
+
+} while (results.MoreRecords);
+
+
+Important Properties
+Count
+
+Number of records per page.
+
+1
+query.PageInfo.Count = 5000;
+Show more lines
+PageNumber
+
+Current page being retrieved.
+
+1
+query.PageInfo.PageNumber = 1;
+Show more lines
+PagingCookie
+
+Marker indicating where the next page should start.
+
+1
+query.PageInfo.PagingCookie = results.PagingCookie;
+Show more lines
+MoreRecords
+
+1
+results.MoreRecords
+Show more lines
+
+Returns true if more pages exist.
+
+Q5. Execution order and why?
+Copilot said:
+js over br"JavaScript → Business Rule → Plugin → Workflow" for all scenarios. Business Rules and JavaScript both run on the client side and can trigger each other depending on the event. 
+
+Sync plugin over real time wf
+On the server side, synchronous plugins can execute in PreValidation, PreOperation, or PostOperation stages, while Real-Time Workflows can run before or after the core operation, so a plugin may run before or after a workflow depending on its registration stage.
+real time wf can be set after main operation is doen i.e post the operation or before the main operation as well.
+
+After the database transaction is committed, both Asynchronous Plugins and Background (Async) Workflows are processed by the asynchronous service, and Microsoft does not guarantee that one will always execute before the other. Therefore, the correct way to think about the pipeline is: Client-side logic (JavaScript/Business Rules) → PreValidation Plugin → PreOperation Plugin → Real-Time Workflow (Before) → Core Operation → PostOperation Plugin → Real-Time Workflow (After) → Database Commit → Async Plugin/Background Workflow (order not guaranteed).
+============================================================================================================================================================
+Q6.Promises?
+->A Promise is a JavaScript object used to handle asynchronous operations. In Dynamics 365 CRM, Promises are commonly used with:
+
+Xrm.WebApi.retrieveRecord()
+Xrm.WebApi.retrieveMultipleRecords()
+Xrm.WebApi.createRecord()
+Xrm.WebApi.updateRecord()
+Custom Web API calls
+Instead of waiting for an operation to complete, JavaScript continues execution and the Promise handles the result later.
+Why Do We Need Promises?
+
+Without Promises, asynchronous code can become difficult to manage using nested callbacks.
+
+Example:
+
+JavaScript
+
+Xrm.WebApi.retrieveRecord("account", accountId)
+.then(function success(result) {
+console.log(result.name);
+
+},
+
+function(error) {
+
+console.log(error.message);
+
+}
+
+);
+Show more lines
+
+Here:
+
+.then() executes when the operation succeeds.
+Error function executes if the operation fails.
+============================================================================================================================================================
+
+Q7.Does Business Rules work when plugin record updates, workflow record updates, etc.?
+Copilot said:
+Short Answer: It depends on where the Business Rule is configured.
+
+Entity Scope Business Rule
+Yes, Entity-scoped Business Rules run on the server side, so they work when records are updated by:
+
+Plugin
+Workflow (Real-time/Background)
+Power Automate
+Web API
+Data Import
+SDK/Integration
+Example:
+
+Plain Text
+Entity Business Rule:
+If Status = Active
+Set Priority = High
+A plugin updates Status to Active → Business Rule executes.
+
+Form Scope Business Rule
+❌ No, Form-scoped Business Rules run only on the form/client side.
+
+They work when:
+
+User opens the form
+User changes data on the form
+They do not run when data is updated via:
+
+Plugin
+Workflow
+Power Automate
+Import
+Integration
+============================================================================================================================================================
+
+Q.Optimize the d365 CRM System ?
+Client-Side (Forms & JavaScript)
+Avoid unnecessary Web API calls.
+Combine data retrieval into a single API call whenever possible.
+Use $select to retrieve only required columns.
+Use $expand instead of multiple related record calls.
+Avoid synchronous XHR requests.
+Minimize logic in OnLoad.
+Register OnChange events only where required.
+Remove unused JavaScript libraries.
+Avoid duplicate event registrations
+Cache values already retrieved instead of calling APIs repeatedly.
+Use form notifications instead of expensive validations.
+
+Form Optimization
+Reduce the number of fields on a form.
+Limit subgrids, timelines, and quick views.
+Use collapsed tabs for infrequently used information.
+Use role-based forms instead of loading everything on one form.
+Remove unused business rules.
+Avoid too many form scripts
+
+Plugin Optimization
+Use PreOperation instead of performing an extra Update.
+Use Images instead of additional Retrieve calls.
+Prevent recursive execution using Depth.
+Move heavy processing to Async plugins.
+Avoid nested loops over large datasets.
+Use paging for large record retrievals.
+
+Query Optimization
+Filter data at the query level.
+Avoid retrieving unnecessary records.
+Use FetchXML aggregation when counts/sums are needed.
+Use paging for large datasets.
+Use alternate keys where applicable.
+Optimize joins and linked entities.
+
+Power Automate Optimization
+Use trigger conditions.
+Filter records in Dataverse queries rather than inside Apply to Each.
+Avoid unnecessary loops.
+Process records in batches.
+Reuse Child Flows.
+Turn off concurrency when data integrity is important.
+use the data operation to avoid the unnecessary use of loops 
+
+Data Optimization
+Remove duplicate records.
+Archive historical data.
+Clean unused tables and columns.
+Maintain proper relationships.
+Use alternate keys for efficient Upserts.
+
+Security Optimization
+Keep security role design simple.
+Avoid overly complex sharing models.
+Use Teams where appropriate instead of excessive individual sharing.
+
+Integration Optimization
+Use batch requests (ExecuteMultiple).
+Reduce chatty integrations.-A chatty integration is an integration pattern where a system makes a large number of small API calls instead of fewer optimized requests.
+Implement retry logic.
+Process large integrations asynchronously.
+============================================================================================================================================================
+
+Q. Batch process 0 
+Plugin Performance Optimization Challenge (Field Service) - Enterprise Level Scenario
+Project Context
+
+I was working on a Dynamics 365 Field Service implementation for a large organization managing preventive maintenance contracts for customer assets distributed across multiple locations.
+
+The business process required that whenever a Maintenance Agreement was activated, the system automatically generate Work Orders for all covered assets.
+
+A typical agreement could contain:
+
+200-300 Customer Assets
+Multiple Incident Types
+Several Service Tasks per Work Order
+Related Resource Requirements and Scheduling Information
+Business Requirement
+
+When an Agreement was activated:
+
+Plain Text
+1
+Agreement Activation
+2
+↓
+3
+Retrieve all covered Assets
+4
+↓
+5
+Generate Work Orders
+6
+↓
+7
+Generate Service Tasks
+8
+↓
+9
+Create Resource Requirements
+10
+↓
+11
+Make records available for scheduling
+Show more lines
+
+The expectation was that all records should be available immediately after activation.
+
+Initial Implementation
+
+The original implementation was developed using a synchronous Post-Operation plugin on Agreement Activation.
+
+The plugin:
+
+Retrieved associated Customer Assets.
+Iterated through each Asset.
+Retrieved Incident Type information repeatedly inside loops.
+Retrieved unnecessary columns using ColumnSet(true).
+Created Work Orders individually.
+Created related Service Tasks individually.
+Executed multiple Dataverse calls per Asset.
+Simplified Flow
+Plain Text
+1
+Loop Through Assets
+2
+↓
+3
+Retrieve Asset Details
+4
+↓
+5
+Retrieve Incident Information
+6
+↓
+7
+Create Work Order
+8
+↓
+9
+Create Service Tasks
+10
+↓
+11
+Repeat
+Show more lines
+
+For a contract with:
+
+Plain Text
+1
+250 Assets
+Show more lines
+
+the plugin generated hundreds of Dataverse requests.
+
+Issues Observed
+User Experience
+
+Users experienced:
+
+Long save times
+Delayed Agreement activation
+Screen freezing while records were generated
+Technical Challenges
+
+The plugin execution time was increasing because of:
+
+Plain Text
+1
+Multiple Dataverse round trips
+2
++
+3
+Repeated data retrieval
+4
++
+5
+Individual create operations
+6
++
+7
+Large volume processing
+Show more lines
+
+The risk was that future growth in asset volume could lead to:
+
+Plugin timeout issues
+Scalability concerns
+Poor user experience
+Analysis Performed
+
+I reviewed the plugin execution flow and identified the main bottlenecks.
+
+Observation 1
+
+Asset-related information was being retrieved multiple times.
+
+Example:
+
+C#
+1
+service.Retrieve(...)
+Show more lines
+
+inside loops.
+
+This increased latency significantly.
+
+Observation 2
+
+The implementation used:
+
+C#
+1
+ColumnSet(true)
+Show more lines
+
+which retrieved all attributes even though only a few fields were required.
+
+This increased payload size unnecessarily.
+
+Observation 3
+
+Record creation was done sequentially.
+
+Example:
+
+C#
+1
+service.Create(workOrder);
+Show more lines
+
+for every record.
+
+For hundreds of records this resulted in a large number of Dataverse calls.
+
+Optimization Approach
+1. Reduced Data Retrieval Calls
+
+Instead of retrieving records repeatedly inside loops, I used a single RetrieveMultiple query to fetch all required Customer Assets.
+
+This reduced the number of service calls considerably.
+
+Example:
+
+Plain Text
+1
+250 Retrieve Calls
+2
+↓
+3
+1 RetrieveMultiple Call
+Show more lines
+2. Limited Retrieved Columns
+
+Instead of:
+
+C#
+1
+ColumnSet(true)
+Show more lines
+
+I explicitly retrieved only required columns.
+
+Example:
+
+C#
+1
+new ColumnSet(
+2
+"msdyn_customerassetid",
+3
+"msdyn_name",
+4
+"msdyn_account"
+5
+)
+Show more lines
+
+Benefits:
+
+Smaller payload size
+Faster query execution
+Reduced memory consumption
+3. Eliminated Redundant Queries
+
+Reference data such as:
+
+Incident Types
+Service Templates
+Configuration Records
+
+was retrieved once and reused throughout processing instead of querying repeatedly.
+
+4. Batch Processing
+
+Where feasible, record creation was grouped using batch operations (ExecuteMultiple), reducing the number of network calls between the plugin and Dataverse.
+
+This improved overall throughput significantly.
+
+5. Recommended Architectural Improvement
+
+While optimization helped, I also recognized that generating hundreds of records is fundamentally a background processing activity.
+
+I recommended moving the heavy processing to an asynchronous approach.
+
+Revised Architecture
+Plain Text
+1
+Agreement Activated
+2
+↓
+3
+Lightweight Plugin
+4
+↓
+5
+Create Processing Request
+6
+↓
+7
+Asynchronous Processing
+8
+↓
+9
+Generate Work Orders
+10
+↓
+11
+Generate Tasks
+12
+↓
+13
+Complete Processing
+Show more lines
+
+This removed the burden from the user transaction.
+
+Result
+Before Optimization
+Plain Text
+1
+User clicks Activate
+2
+↓
+3
+Waits while hundreds of records are generated
+Show more lines
+After Optimization
+Plain Text
+1
+User clicks Activate
+2
+↓
+3
+Immediate response
+4
+↓
+5
+Processing happens efficiently in background
+Show more lines
+Business Benefits
+Faster Agreement activation
+Better user experience
+Reduced Dataverse API consumption
+Improved scalability
+Reduced risk of timeout issues
+Easier support and maintenance
+Interview Version (2-3 Minutes)
+
+In a Dynamics 365 Field Service project, activating a maintenance agreement generated Work Orders for hundreds of customer assets. The original solution used a synchronous Post-Operation plugin that retrieved data repeatedly and created records individually, resulting in performance issues and long execution times. I analyzed the implementation and optimized it by reducing Dataverse service calls, replacing repeated retrieves with RetrieveMultiple queries, fetching only required columns, eliminating redundant operations, and using batch processing where appropriate. I also recommended moving the heavy processing to an asynchronous approach since generating hundreds of records should not block the user transaction. As a result, we significantly improved performance, reduced API consumption, enhanced scalability, and provided a much better user experience.
+============================================================================================================================================================
+
+Q.

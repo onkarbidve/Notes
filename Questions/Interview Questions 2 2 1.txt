@@ -1,0 +1,414 @@
+#*#Functional and some Technical point of view :-
+
+1. What is the root business unit, and can we modify it?
+2. What are managed/unmanaged solutions? Is it possible to update components in a managed solution?
+3. Where do we find settings related to numbers, currency and datetime format?
+4. What is the main advantage of using Power Automate ?
+5. Explain Manager and Position Hierarchy in D365 ?
+6. How to achieve Field Level Security ?
+7. What is the difference between workflows and Dialogues ?
+8. What is the difference between Access Teams and Owner teams ?
+9. Explain the event execution pipeline in D365.
+10. What happens when multiple security roles are assigned to a user? How is the level of security determined ?
+11. Explain 1:N and N:N relationships and what happens when we create them.
+12. What are the various web resources supported by D365 CE?
+13. Can the default solution be exported as a managed solution?
+14. What is Append and Append To privilege ?
+15. What and Timeout and Wait conditions in workflows ?
+
+1.What do you mean by an unmanaged solution ?
+2.What are the numbers of implementations that you have completed ?
+3.What are the significant differences between configuration and customization ?
+4.Define a Plugin ?
+5.Define the Execution Model related to Event Pipeline
+6.Is it possible to change the name of a root business units ?
+7.What is the core diff btw delete and remove buttons on the solution ?
+8.Explain all the step involved in exporting a solution as managed solution ?
+9.In which place we can make modifications to number and currency and time formats ?
+10.Where can we find the owner of a managed solution ?
+11.What is the advance search? Advanced Find is a powerful feature in Dynamics 365 that can be used easily by literally any user without SQL query knowledge
+12.What do you know about E-mail roouter in MS CRM
+
+#*#Plugin Interview Questions:
+1.Explain in details about the event execution pipeline.
+2.When do we register a plugin in a child pipeline? give examples
+3.What are images? Why are they used?
+4.What is early binding and late binding? How is it used in CRM?
+5.How do you debug a plugin?
+6.When an infinite loop occurs in a plugin. How do you avoid infinite loops in the plugin code?
+7.How do you avoid SQL deadlock?
+8.if you delete a record from UI, what happens in the database. can you bring the record back?
+9.what is deletion service? can you change its schedule
+10.Difference between PlugIn vs Workflow (Asynchronous vs Synchronous)
+11.for plugin deployment, Difference between GAC, DataBase, Disk deployments.
+12.Difference between CRM web service Vs CRM.SDKProxy namespaces.
+13.What are the different operation (Pre Validation, Preoperation & Post operation) in Plugin?
+14.Difference between Secure & Unsecured Config?
+15.When we should go with Early binding and when with Late Binding?
+16.Can we pass data between two Plugins?
+17.Can we register For-premise plugin in Sandbox mode ? 
+18.Different modes of the plugin?
+19.Why we need to Create Security Key before registered the plugin?
+20.Alternate Keys in Microsoft Dynamics 365 !
+21.What interface we use a plugin to inherit CRM Services?
+22.Importance of Secondary Entity in plugin registration tool?
+23.What security roles need to register the plugin in Online and on-premise both?
+24.What is filtering Attribute in CRM Plugin Reg Tool?
+25.What is Tracing Service in Plugin?
+26.What is the Target Entity, Input and Output Parameter in Plugin?
+27.Difference between Service.Retrieve and Service.retrieve multiple
+28.What are different ways (QueryExpression, LINQ,
+   FetchXML) to fetch CRM metadata in Plugin? Difference between them? fetch xml support aggigation query expression dose not support aggregation
+29.Disadvantages of using Query Expressions?
+30.What is the Execution Time of Sync and Async plugin in CRM? :: asynchronous plugin excute immediatly
+31.Which will execute first in ASync Workflow and Async Plugin?
+32.How can we call external web service in on-premise and Online plugin CRM?
+33.What are the different ways available to debug a Plugin (Onprem and Online both)
+34.Can we register on-premise plugin in Sandbox mode?
+35.Why online plugin has to be registered in sandbox mode only?
+36.What are the different storage locations available to store a plugin?
+37.What are the DLLs required to register a plugin?
+38.What is the significance of System.Runtime.serialization.dll in the plugin?
+39.What information can we get from Plugin Context?
+40.What is the difference between Plugin Context and Pre-Image?
+41.How can you get the plugin tracing information in CRM?
+42.Can we configure our own connection string and credential inside the plugins?  :::: using xrm tooling enble you to connect your instance  by using connection string
+43.What are the OOPs concepts use in Dynamics CRM? Tell me with examples?
+44.Tell me any Example of Inheritance in Dynamics CRM?
+45.Tell me any Example of Polymorphism in Dynamics CRM?
+46.Tell me any Example of Abstraction in Dynamics CRM?
+47.Tell me any Example of Constructor in Dynamics CRM?
+48.Tell me any Example of Classes and Objects in Dynamics CRM?
+49.Tell me any Example of Encapsulation in Dynamics CRM?
+50.What is the execution timeout of Async and Sync Plugin?
+51.Why the field IsValidForUpdate used for from plugin perspective?
+52.Can be field security enabled field accessible from Plugin Pre-Images? 
+53.What is the significance of Shared variables?
+54.Does Impersonation work for Offline Plugins?
+55.What are the different ways to register a plugin?
+56.In order to access the external website or page, Do we have provision for prompting the logged on user 
+   for credentials or saving those credentials inside a plugin?
+57.What would be the execution order, if Plugin, Workflow, and javascript are being run in the same event?
+58.Which will run first Synchronous Workflow (Real-Time Workflow) or Synchronous Plugin?
+59.Which will run first Asynchronous Workflow or Asynchronous Plugin?
+60.What happens when we set the execution order of Plugin to '0'?
+61.Which property use to check, whether Plug-ins may or may not execute within the database transaction of the Microsoft Dynamics 365 platform?
+62.If Async(or Async Workflow) and Sync both plugins are registered on the same entity and event. And Sync Plugin gets failed. What would happen with  Async Plugin?
+63.What are the advantages of Plugins over Workflow(System+Custom) and Vice-Versa? Since both can be written on the server side then what Plugin can do that Workflow can't and vice-versa?
+64.What are the Limitations of Plugins?
+65.What is Azure Aware Plugins?
+66.What is the difference between Registering Endpoint and Register Webhook Plugins?
+67.How can we deploy Endpoint configuration (url, port, header, key etc) from one instance to another in case of Endpoint registration plugins?
+
+
+#*#Business Rules Interview Questions:
+
+1.What is Business Rules and why it has been introduced in CRM?
+2.What is the Scope of Business Rules?
+3.Does Business Rules work for Record Creation or Save?
+4.Does Business Rules work during Bulk Import and Bulk Edit?
+5.Does Business Rules work when plugin record updates, workflow record updates, etc.?
+6.Which run first Javascript or Business Rules if both performing action on the same field?
+7.When business rules run with respect to javascript?
+8.What is the execution order of System Javascript (source code by Microsoft), Your Custom JavaScript and Business Rules?
+9.When a business rule is used to set or change a field value, Does Javascript OnChange event handler triggered?
+10.Does Business Rules work when a record is being created from an external web application?
+11.How to Fire a Business Rule after a field is updated using JavaScript?
+12.Is there any Order to run Business Rules in a Particular field or Entity? How does it work and How to configure the same?
+13.How Section and Tab can Hide/Show using Business Rules?
+14.What are the limitations of Business Rules?
+15.Maximum nuber of if/else statements allowed in BR?
+16.What is the maximum limit of using If/Else statement in a Business Rules?
+17.Can we enable the Business Rules on Lookup Fields ?
+18.CRM 365, Developer complaining, business rules are not working. what could be the reasons for that ? 
+
+#*#Solutions AND Deployement Interview Questions:
+
+1.What is Managed Properties in Solution?
+2.Types of Solutions?
+3.Difference between Managed and Unmanaged Solutions?
+4.Roles needed to export-import the solution?
+5.Steps to create a solution in CRM?
+6.What Is The Difference Between Remove And Delete Buttons On Solution?
+7.What are the solution patch and cloning?
+8.How can we delete components from the Managed solution?
+9.What are Solutions?
+10.What are types of Solutions?
+11.What is Managed Solution?
+12.What is unmanaged solution?
+13.Can we export Default solution as 'Managed Solution'?
+14.What options we get when we export Managed & Unmanaged Solution?
+15.How can we delete components from the Managed solution?
+16.Can we update the components in Managed solution?
+
+17.Difference between Managed and Unmanaged Solutions
+18.Difference between Clone a Patch & Clone Solution.
+19.Difference between Remove And Delete Buttons on solution
+20.Difference between Update & Upgrade a Solution while deployment.
+
+21.What is solution layering?
+22.What is 1.0.0.0 in solution versioning?
+23.What are the components can be added to solution?
+24.What is meant by publisher and why we are using it Solutions?
+25.Can you explain the concept of a Publisher prefix?
+26.What is Solution Checker?
+27.How do you use the Solution Checker to identify potential issues before deploying a solution?
+28.Have you used Solution Components Mover in XrmToolBox? What is the use of it?
+
+29.When is the active solution layer is created & what is the impact of it?
+30.Did you used patch solution or whole solution was deployed to higher environment in your projects?
+31.What are the best practices for versioning solutions in D365 CE?
+32.How will you handle versioning in solution building and deployment
+33.How do you handle dependencies between different solutions during deployment?
+34.Explain the concept of solution patches and their significance in deployment.
+35.What are the deployment practices required to perform before, while and after the deployment?
+36.What are the post deployment activities we need to follow?
+37.How will you identify that you automated pipeline is up and running before starting the deployment?
+38.How can you merge multiple solutions in D365 CE without losing customizations?
+39.How can you back up or rollback a solution deployment in case of issues?
+40.How do you handle data migration and integration tasks during the deployment of a solution?
+41.Suppose I want to delete the component from a table in prod environment. Prod environment has managed solution in it. How to achieve this?
+42.I am getting missing dependency error while import of solution, how will you resolve this?
+43.When we import a solution, I want to disable the plugin steps. Can I do it & if yes, then how?
+44.I have deleted one field from an entity A in development environment & I need to push these changes in Production A & B. How to achieve this? (Assume solution in Prod A is Managed & in Prod B is unmanaged)
+
+
+
+#*#Miscellaneous Interview Questions:
+++
+1.On Creation of Entity, How Many Tables will Be created At Back End?
+2.Difference between Share and Assign?
+3.Can system admin read the Field Level Security?
+4.Why CRM use Webservice only to interact with the external applications?
+5.What information IPlugin interface store and what is the significance of the same?
+6.What are different modes available in order to register a plugin?
+7.What is the significance of 'Act on Behalf of Another User Privilege' in Dynamics 365?
+8.Suppose I am having Delete Privilege of User Access Level on Account Entity. And my Manager 
+  is having Delete Privilege of Organisation Access Level on the same. Now If I work on behalf  
+  of my Manager (In either Plugin/Workflow/WEB API etc) then What Access Level I would be having in order to delete the Account?
+9.Suppose I don't have Read Privilege on Account Entity. But my Manager is having that Privilege of 
+  Organisation Access Level. Now If I work on behalf of my Manager (In either Plugin/Workflow/WEB API etc) 
+  then Will I be able to read the Account Entity records?
+10.How to get Page data/fields values using JavaScript in Dynamics 365 as Xrm.Page has been deprecated in the latest CRM release?
+11.How CRM manage concurrent requests inside plugins?
+12.What role a User must have to create and activate a real-time workflow?
+13.Does Real-time Workflow revert the changes if any error occurs during performing any operation?
+14.What are the stages on which Real Time Workflow works?
+15.What is the difference between entity.Id and entity.PrimaryEntityId in the plugin?
+16.When to use Target as an Entity and Target as an EntityReference?
+17.What are the Limitations of Muti Select Fields in D365?
+18.Can add up to 150 values available in Multi Select Fields?
+19.Is it possible to trigger a javascript on change of rollup and calculated field??
+20.Is it possible to trigger a Plugin on change of rollup and calculated field??
+21.Is it possible to trigger a workflow on change of rollup and calculated field??
+22.If you use Column Set(true) and perform service.Update(obj), will it update all column?
+23.Which one is faster. Set in Descending order - Query Expression, Fetch XML, LINQ?
+24.Best Practices - Maximum number of fields on an entity?
+25.Difference between Primary Field and Primary Key in CRM Form?
+26.How many custom primary keys you can create in crm?
+27.Filtered View?
+28.Role of Technical Lead?
+29.BRD vs FRD vs FDD vs TDD?
+30.What is your biggest weakness?
+31.Agile or Waterfall which one is better?
+32.Difference between Functional and Technical Consultant Role?
+33.How to handle fresher team being a Team Lead?
+34.Most challenging task and situation that you handled and how did you handle that?
+35.Difference between Waterfall/Agile and DevOps?
+36.How to decide whether should I go with Agile or Waterfall?
+37.Tell me the Sprint Process?
+38.What is the process when you not able to complete user story in a particular sprint?
+39.Different reusable way to keep javascript in portal?
+40.Example of fetch xml in portal?
+41.How can we brand portal for different group of people?
+42.How can we pull other system/applications data in Portal?
+43.What is Solution Principles in software developments?
+44.Being a Team Lead what is your way of working?
+45.Difference between Build and Release?
+46.4What is the best way to store all plugins classes in visual studio?
+47.How to do Unit Testing in Dynamics 365?
+48.What is Apps in Dynamics 365?
+49.Difference between Model Driven and Canvas App?
+50.What is the design to Hide/Show View based on Security Roles?
+51.How Localized string/ Custom error messages work in Plugin/Workflow in case of multi language crm?
+52.Update 1Lakh + child records based on Parent record without using relationships?
+53.Difference between Register Endpoints and Register Web hook?
+54.How we can migrate Endpoint information from one instance to another while exporting/Importing solution in Dynamics 365?
+55.What is the best way to delete components from Managed Solution?
+56.Latest Enhancement and Feature of Dynamics 365 from Developer Perspective?
+57.What are the Language translation options in Dynamics 365?
+58.What else you do along with office work to make good environment in the team?
+59.How do you motivate your team?
+60.How to expose custom entity on Portal?
+61.What is the way to Push data in CRM except entity form on portal?
+62.Connections vs Relationship in dynamics 365?
+Offline plugings
+
+
+
+Can we create cutsome massage in plugin if yes HOW? 
+How we debug and custome workflow?
+When nothing is happening last few days how to get and send mail to owner?
+differnce between Queryexpression and fetchxml?
+Go through Azure CI/CD Pipeline?
+We not created CI/CD Pipeline. we just deployed enviroment.
+Data Migration/ Data Import ?
+I dont worked on that perticular but i fetched data from excel and stored in dynamics using flow.
+Brief introduction about sales and service?
+Field level security and securtiy role?
+What are the deperecated method in version 8 and 9 dynamics javascript?
+form notifictaion with syntax?
+BPF discription apart from some example? What are the method ?
+
+When crm is complety down on prime and on cloud ?
+Ans 
+
+#*#Power APP/Canvas:
+Explain about the Power platform echo-system?
+What are PowerApps and why do we use it?
+What is the difference between a Model-driven app and a Canvas app?
+What are the benefits of Power Portal?
+Define common data services (Dataverse), and why should we use them?
+What are the types of apps that can be created in PowerApps?
+Is it possible to use multiple data sources in one canvas app?
+What are the different ways to submit data from PowerApps?
+Can we access local network/on-premise data sources in PowerApps?
+How can Error Handling be implemented in PowerApps?
+How is it possible to use media files in the Canvas app?
+What is a collection, and how can they be created?
+How different user environments can be created in PowerApps?
+How can a local or global variable be defined or used in PowerApps?
+Is it possible to create PowerApps without gaining access to a license?
+Why is the Patch function used in canvas apps?
+What is the difference between IsMatch, Match and MatchAll functions in PowerApps?
+You are building a canvas app. With the changes suggested by the client, the app screens keep on increasing.
+What could be the most convenient way of using a PowerApps app inside office premises?
+As a consultant, when can you choose Model-driven apps over Canvas apps?
+In a collaborative environment, how can you ensure the versioning of a canvas app when there are regular updates rolled out?
+Can you share a canvas app with external business partners and contractors?
+Which are the types of variables that are used in PowerApps?
+What is the purpose of using the SaveData() function?
+Can you add responsiveness to the canvas apps?
+Does the use of more and more connections in an app degrade the performance?
+What is the concept of delegation in PowerApps?
+When can you say that the Search() function may not be a good choice when you’re working with Sharepoint data?
+Is there any specific situation when you can choose a model-driven app over a canvas app?
+How can you distribute a canvas app with all the employees in an organization?
+How can you call a flow from another flow in Power Automate?
+Suppose you have a custom website. How can you access data from the custom website and use the same in the PowerApps canvas app?
+You are given a task to include the sentiment analysis feature in your app. How can you do this?
+Explain about Security Roles.
+When can you opt for implementing a PowerApps Portal?
+If you have a Plugin and a workflow present on a new form, which will it be executed first?
+If you have a Javascript code and a Business Rule present on a new form, which will be executed first?
+While working with Power BI you have created 3 charts and 3 dashboards. How can you ensure that the same can be shared with your colleagues?
+What are the different license options available when it comes to the Storage aspects of the Microsoft Power Platform?
+What programming language is PowerApps?
+What are the major components of PowerApps?
+List PowerApps Features.
+What are the benefits of using PowerApps?
+What are the limitations of PowerApps?
+In PowerApps, how many different sorts of variables are there?
+Can we use the REST API in PowerApps?
+What is a flow in PowerApps?
+What is the difference between PowerApps and logic apps?
+What is the difference between PowerApps and Power Automate?
+Which three mobile platforms can you run apps built with PowerApps?
+Which data sources are supported by PowerApps?
+What are PowerApps templates?
+Is it possible to use the canvas app in a model-driven app?If yes How?
+What is the Power Automate?
+Explain about Desktop Flow?
+What are the types of Power Automate?
+What do power automate templates do?
+How can I navigate across the PowerApps screens?
+Can you automate Approval scenarios in Power Automate?
+How can you call Power Automate from the Power Portal?
+How can we create reports in Power BI using an on-premise data source?
+How can you integrate Power BI inside dynamic 365 CE Model driven apps?
+Can you explain about authorization in Power Portal?
+How to define menu items in Power portal?
+How to connect Dataverse data from Power Portal without using List and Form control.
+How to deploy a Power Portal from one environment to another?
+How to work with large data in Power Apps?
+
+Common questions asked related to Solutions & Deployment:
+
+
+Common questions asked related to XrmToolBox:
+1. What is XrmToolBox, and what is its purpose in Dynamics 365?
+2. How do you install XrmToolBox and connect it to your Dynamics 365 environment?
+3. How does XrmToolBox help developers in their day-to-day tasks within D365?
+4. Mention some of the popular tools available in XrmToolBox and their specific use cases?
+5. Can we connect XrmToolBox to multiple Dynamics 365 instances & with different versions of Dynamics 365?
+6. What are the security considerations when using XrmToolBox in a production environment?
+7. Can you describe a specific scenario where XrmToolBox significantly improved your productivity as a Dynamics 365 developer or administrator?
+
+#*#Common Questions asked related to Projects:
+
+1.Tell me about your latest project & what were your roles & responsibility in that project?
+2.Did your project followed Agile or Waterfall methodology? Give me some examples from your project
+3.What's the difference between Agile or Waterfall methodology?
+4.Explain the Hierarchy in your project? Who used to assign you task & who use to review it?
+5.How the deployment used to happen? Who used to do that?
+6.In your project, how scrum master use to measure and track project progress and success?
+7.How many type of documentation you have did and what role do you believe project documentation plays in a successful project?
+8.What tools or software you are familiar about project management?
+9.How did you approached gathering and documenting business requirements for project?
+10.Have you worked on projects that involve integration with other systems or platforms? How did you handle the integration challenges?
+11.Can you explain the customization and configuration capabilities of Dynamics 365 that you've utilized in previous projects?
+12.What is your experience with data migration in projects? or Have you did any data migration in any of your projects?
+13.What testing strategies you followed to ensure a smooth deployment and minimize post-go-live issues?
+14.How did you handled change requests and scope changes after some time of task allocation? 
+15.Can you provide examples of requirements where you achieved significant cost savings for the client?
+16.What are some common challenges you've encountered in your projects, and how did you overcome them?
+17.How will you mitigate low performance issues in dynamics 365
+18.What is definition of DONE?
+19.What is definition of READY?
+20.Do you have experience in dealing directly with clients?
+21.What challenges have you faced while client interaction and did they accepted your suggestion?
+
+#sequence of how processes trigger sequence wise works in d365 
+1)System JavaScript (JS)
+
+2)Custom JavaScript
+
+3)Business Rules (BR)
+
+4)Sync Plugins
+
+5)Sync Workflows
+
+6)Custom Actions
+
+7)Real-time Workflows
+
+8)Async Workflows
+
+9)Async Plugins
+
+10)Background Workflows
+
+
+Correct execution order
+
+Client Side
+------------
+System JS
+Custom JS
+Business Rules
+
+Server Side (Synchronous)
+-------------------------
+PreValidation Plugin
+PreOperation Plugin
+Real-time Workflow
+PostOperation Plugin
+
+Database Commit
+---------------
+
+Server Side (Asynchronous)
+--------------------------
+Async Plugin
+Background Workflow

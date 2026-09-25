@@ -1,0 +1,318 @@
+Framework 
+1=> How will you troubleshoot the workflow issue - when for a specific user the wf is not getting triggered
+Ans- 
+Instead of remembering 15 points, remember just 5 buckets
+👉 Whenever any troubleshooting question comes
+1. Configuration
+2. Scope / Context
+3. Data / Trigger Conditions
+4. Security / Access
+5. Execution / Logs
+
+Example -
+1. Configuration
+Workflow activated?
+Trigger set correctly?
+
+👉 2. Scope / Context
+Scope = User / BU / Org?
+Is affected user included?
+Workflow owner active?
+
+👉 3. Data / Trigger Conditions
+Are fields actually changing?
+Does condition match?
+
+👉 4. Security / Access
+Workflow owner permissions
+User access
+Email "send on behalf"
+
+👉 5. Execution / Logs
+Check System Jobs
+Failed or not triggered?
+Any plugin/flow interference?
+
+Example 
+
+Q.Workflow working on dev but it is not working on production 
+Ans - 1.Check for workflow configuration - activated or not => configuration 
+
+2. Check whether the owner is present in prod or activated and scope of wf =>Business unit difference , scope Check the differences with the prod and dev 
+ 
+3. Check whether the owner has privileges of entity, Business Unit / Team Security Differences ,Users in PROD may belong to different Business Units ,Workflow owner may not have access to secured fields in PROD.=> Security role
+
+4. Will check the Fields used in workflow are deployed on prod=>DEV data often differs from PROD data, causing conditions not to match e.g optionsetvalues 	,status etc. or missing related componenets => Dependencies=> data issue
+ 
+5. Check environment-specific configurations like email setup, mailbox, or integration settings.
+============================================================================================================================================================
+
+Common question -
+Framework 
+2.What happens when multiple security roles are assigned to a user? How is the level of security determined?
+=>1.Start with Core Concept
+2.Explain Behavior
+3.State Rule
+4.Give Example
+5.Add Key Insight -Note
+
+Example - 
+In D365, when multiple security roles are assigned to a user, the system follows a cummulative privilege model. This means privileges from all roles are combined, and the highest level of access is applied for each privilege.
+For example, if one role gives User-level read access and another gives Business Unit-level access, the user will get Business Unit-level access.
+There is no deny concept in D365 security; access is always additive and evaluated based on the most permissive level.
+
+============================================================================================================================================================
+1.When reassigning the users from one business unit to another what could be the reasons of not getting reassignemnt in msd 365 crm ?
+->
+1.Insufficient Security Privileges
+2. User Is Disabled / Not Properly Licensed
+3. Custom blocking
+
+Q.3. Where do we find settings related to numbers, currency and datetime format?
+Ans- There are two ways
+1.Personal setting > Formates > applicable to single user
+2.Advanced setting >Administration >formats - Applicable to whole system 
+
+============================================================================================================================================================
+Some tips to talk - 
+1.I have worked on similar requirements where
+2.Let me explain this with an example
+3.May I take a moment to think about that
+4.I haven’t worked on that yet, but I understand the basics.
+5.Absolutely
+6.I agree
+7.I’ve read about it, but I haven’t had a chance to apply it in a real project
+8.I haven’t worked on that specifically, but I have experience in a similar area such as…”
+9.While I’m not directly experienced with that, I’ve worked with related technologies like…”
+10.I may not have done that exact task, but I’ve handled something similar Where
+11.I’m not familiar with that specific feature yet, but I have experience with similar D365 customizations and I’m confident I can learn it quickly
+============================================================================================================================================================
+
+Advantages of power automate 
+1. Seamless Integrations with external systems using the connector and apis 
+2. No code /Low code platform 
+3. Process automation – streamlines day-to-day tasks 
+4. Traceability and monitoring (easy failure tracking)
+5. Flexible execution (no strict timeout for many scenarios)
+6. Can perform sheduled automation 
+7. AI Builder & Intelligent Automation
+8. Security & compliance (enterprise-grade)
+
+Disadvantages/limitation of power automate 
+1. Only works asynchronously - can not perform real time validation 
+2. Throttling or execution error for large amount of data 
+3. Cannot get the data more than 5k records - have to use the paging upto fetching the 100000 records
+4. Performance Issues for Large/Complex Flows -Flows with many actions or loops can become slow
+5. Licensing and cost constraints 
+
+Other 
+ ✅ Max 25 cases per Switch
+ ✅ Up to 500 Actions per Flow
+ ✅ 8 levels of Nesting Depth
+ ✅ Max 250 Variables per Flow
+ ✅ 600 Flows per user (non-solution)
+ ✅ Max Run Duration: 30 days
+ ✅ "Apply to Each" Loop: 5K–100K iterations (plan-based)
+ ✅ API Request Limit: 40K/user/day (Premium), 250K/flow/day
+ ✅ Concurrency Control: Default 25, up to 100
+ ✅ Minimum Recurrence: 60 seconds
+
+============================================================================================================================================================
+Limitations - 
+1. Workflow (Classic Workflow) – Limitations
+Cannot work across multiple entities easily; mainly tied to a single primary entity.
+Limited trigger points (Create, Update, Status Change, Assign only).
+Not suitable for complex operations / business logic.
+No loops, no advanced branching.
+Slow compared to plugins (uses async engine unless real-time).
+
+2.Business rule
+-Cannot work with multi‑select choice fields .
+- Business rule cannot not work on multiple entities 
+- Business rule can not used on tabs and section 
+- Business rule has limited actions  
+- cannot call or use the apis or actions 
+- Can bypass the bulk import for scope level - forms 
+
+3.Javascript 
+- Client side - can bypass during the bulk imports 
+- Cannot perform server side operations 
+- Cannot used to query on the complex operations
+
+4. Plugin 
+- 2 minutes execution time 
+- Non developer 
+- Button click cannot call the plugin 
+- Not suitable for long time taking executions due to 2min execution time , 
+- Not suitable for the calling external apis and wait for response.
+
+5. Power automate 
+Always asynchronous
+Therefore cannot be used for real‑time validation or preventing save. (Microsoft Flow design – async engine)
+Action limit: 500 actions per workflow
+“Actions per workflow: 500.” [learn.microsoft.com]
+Throttling & API request limits apply
+Dataverse API limits enforce 429 errors when flows exceed request limits. [learn.microsoft.com]
+Must use FetchXML for complex Dataverse queries
+
+6. BPF limitation 
+Stage limit: Maximum 30 stages
+“A BPF can contain a maximum of 30 stages.”
+Limit on active BPFs per entity
+Default 10 activated BPFs per entity (Microsoft constraint). 
+Cannot apply heavy server‑side logic
+BPFs only guide users
+
+7. Web api
+- Concurrent request limits & rate limits
+Dataverse enforces concurrent connection limits and requests limits per 5-minute window
+Payload size limits
+Max payload per request is restricted (Dataverse API constraints). 
+============================================================================================================================================================
+=> D365 CRM – OWNER TEAM vs ACCESS TEAM
+
+OWNER TEAM
+- Can own records ✅
+- Has security roles ✅
+- Access comes from role privileges
+- Used for group ownership
+- More permanent setup
+
+ACCESS TEAM (Template-based)
+- Cannot own records ❌
+- No security roles ❌
+- Gives record-level access only
+- Access defined via template (Read, Write, etc.)
+- Created automatically per record
+- Used for collaboration (temporary access)
+============================================================================================================================================================
+
+1.Preference of Plugin over Power Automate Flow (Based on a scenario)
+-->
+1.Real time validations , Modification of data 
+2.Async post operation which takes has less execution time 
+3.Complex server side operation 
+4.Impersonization scenarios
+5.Business logic affecting security context/roles
+6.Images 
+7.Custom Actions / Custom APIs
+8.Better error handling and debugging
+
+PAF over plugin
+-->
+1.Best for async reminder notitfication 
+2.Set approval flows 
+3.Integration 
+4.Process data for data synchronization between the systems- integration
+5.Working with different third party systems - connectors
+6.schdeuled processing 
+
+2.Plugin works in DEV/UAT but fails in Production. What could be the reasons?
+-->
+1.Environment specific customized static e.g guid , url etc.
+2.Data specific issue - data not availaible like e.g - lookup valeus not present
+3.Configuration missing - fields , records missing 
+4.Security - Impersonated users not availiable , do not have priviledge 
+============================================================================================================================================================
+
+6. If in the production environment, you found an issue which will take 2 days to resolve which is on critical priority, but due to business requirement it should be resolved immediately. What would you do in that particular scenario?
+Ans - 
+First, I would analyze the impact and identify whether a temporary workaround can restore business operations. Since the issue is critical, my priority would be to minimize business downtime while simultaneously working on the permanent fix.
+Since the issue was critical and directly impacting business operations, I first assessed whether there was a safe workaround to keep the business running. The root cause was a bug in the order transaction functionality where Quantity and Name values were not getting mapped correctly. The permanent fix required code changes, testing, and deployment, which would take approximately 2 days.
+
+To minimize business impact, I coordinated with the business team and manually corrected the affected records in Production as a temporary workaround. This allowed critical transactions to continue without interruption. Simultaneously, I started working on the permanent fix in the development environment, performed testing, and followed the standard deployment process to move the fix to Production.
+
+After deploying the permanent solution, I validated that new records were being processed correctly and ensured that all manually updated records were reconciled.
+============================================================================================================================================================
+
+=>If a variable is showing as undefined when using JavaScript, what must be the most possible error?
+1. Variable not present 
+2. Variable data types different 
+3. wrong logical name in js 
+
+=>Lifecycle of Agile and Azure DevOps - Implementation of any Agile methodology in your project. What was the size of the sprint ,Team size (included Scrum Master and PO)
+Migration
+Azure Function
+Azure logic apps - Finance and operation - Practical Implement
+============================================================================================================================================================
+
+Q.How the peer reviews were done
+=>We followed a structured peer review process before moving any development to QA
+
+============================================================================================================================================================
+
+Q.21.What challenges have you faced while client interaction and did they accepted your suggestion?
+Answer -
+
+1.One challenge I faced was when a client requested a synchronous process to update thousands of records immediately after a user action in Dynamics 365. From a technical perspective, I knew this could cause performance issues, timeouts, and poor user experience. Instead of directly responding the requirement, I explained the technical limitations, demonstrated the potential impact, and proposed an asynchronous solution using a background process. After discussing the pros and cons and showing how the business requirement would still be met, the client accepted the recommendation.
+
+2.In one project, the client wanted extensive form customizations using JavaScript and wanted many fields displayed on a single form. I explained the impact on form load performance and user experience. I suggested using tabs, role-based forms, and business process flows to simplify the interface. After a prototype demonstration, the client agreed with the approach because it improved usability without compromising functionality.
+
+3. Explain how f&O couldnot be integrated using dual write and you decided to go with the power automate 
+
+4. A common challenge during client interactions is when business expectations conflict with technical best practices. In such situations, I first understand the business objective, explain the technical implications, and propose alternative solutions with clear benefits. In most cases, clients accepted my suggestions because I focused on meeting the business requirement while ensuring scalability, performance, and maintainability of the solution.
+	
+============================================================================================================================================================
+
+Q.Do you have experience in dealing directly with clients?
+
+Yes, I have experience dealing directly with clients. I have been involved in requirement gathering sessions with stakeholders, functional consultants, and business users to understand business requirements and expectations. I have participated in end-to-end solution discussions, where I provided technical inputs, explained Dynamics 365 platform capabilities and limitations, and suggested the best possible approach to meet business needs. I have also been involved in sprint demos, UAT support, and production support activities, including analyzing and resolving production bugs. Whenever there were challenges or multiple implementation options, I discussed the pros and cons with the client and helped them make informed decisions based on best practices and project requirements.
+============================================================================================================================================================
+
+Q.What are some common challenges you've encountered in your projects, and how did you overcome them?
+->
+1. F&O Challenge - 1.Decided to go with dual write but due to issues like after installing the dual write solutions the existing functionality got affected.
+-> So we decided an alternative to go with the power automate with scheduled jobs/flows.
+
+2. Payment gateway integration - No better feasibility in terms of error logging , payment gateway response had to find the better solution using azure functions but client wanted to go with the only power automtae based solution .after indetail discussion with the client they agreed to go with the azure+paf functionality 
+
+3. One challenging situation I encountered was in a Dynamics 365 Field Service implementation where activating a Preventive Maintenance Agreement automatically generated Work Orders for all customer assets covered under that agreement. Some customers had hundreds of assets, so a single agreement activation could result in the creation of several hundred Work Orders along with related records such as service tasks and resource requirements. Initially, this process was implemented through a synchronous Post-Operation plugin. The plugin retrieved data multiple times, fetched unnecessary attributes, executed Dataverse queries inside loops, and created records individually. As the volume of assets increased, users started experiencing slow response times during agreement activation because the plugin was making a large number of Dataverse calls and spending significant time communicating with the database. To address this, I first analyzed the plugin execution flow to identify performance bottlenecks. I optimized the data retrieval by replacing multiple retrieve operations with a single RetrieveMultiple query and limited the data being fetched by retrieving only the required columns instead of using ColumnSet(true). I also eliminated redundant queries and reused reference data wherever possible. For record creation, I implemented batch processing using ExecuteMultiple to reduce the number of Dataverse round trips. Additionally, I recommended moving the heavy processing to an asynchronous approach so that users would not have to wait for hundreds of records to be created as part of the same transaction. As a result, the agreement activation process became significantly faster, the number of Dataverse calls was reduced considerably, system scalability improved, and the overall user experience was much better. The key takeaway from this challenge was understanding how to balance business requirements with platform limitations by optimizing queries, reducing service calls, and choosing the right processing model for large-volume operations.
+ 
+A common challenge during client interactions is when business expectations conflict with technical best practices. In such situations, I first understand the business objective, explain the technical implications, and propose alternative solutions with clear benefits. 
+============================================================================================================================================================
+
+Q.How did you approached gathering and documenting business requirements for project?
+1.My approach to requirement gathering starts with conducting requirement workshops and discussions with business stakeholders, product owners, and end users to understand the overall business objectives, pain points, and expected outcomes. During these sessions, I ask detailed questions to clarify functional requirements, data requirements, security requirements, reporting needs, approval processes, and integration expectations.
+
+2.Once I gather the initial requirements, I review available business documents, process flows, BRDs, and existing system configurations to understand both the current (As-Is) process and the expected future (To-Be) process. This helps identify gaps, opportunities for improvement, and any potential impact on existing functionality.
+
+3.After understanding the requirements, I analyze the solution from both a functional and technical perspective and provide a proposed implementation approach. This typically includes the recommended solution design, Power Platform or Dynamics 365 components to be used, integration approach, security considerations, assumptions, dependencies, and any limitations or risks.
+
+*Once the approach is agreed upon, I document the requirements in a structured manner through user stories, Functional Design Documents (FDDs), process flow diagrams, field mappings, and integration specifications. I then conduct walkthrough sessions with stakeholders to validate the requirements and the proposed solution approach, address any gaps, and obtain sign-off before development begins.
+
+4.Throughout the project lifecycle, I maintain continuous communication with stakeholders and participate in requirement clarification sessions whenever new scenarios or change requests arise. This approach helps minimize requirement gaps, reduce rework, and ensure that the delivered solution aligns with both business expectations and technical best practices.
+
+============================================================================================================================================================
+Q.Can you share an experience where post-deployment support was crucial?
+Yes, post-deployment support was crucial in one of my Dynamics 365 Field Service projects where I implemented technician scheduling automation.
+
+After the solution went live, users reported that the scheduling process was taking longer than expected during peak operational hours. The scheduling logic needed to evaluate multiple factors such as existing bookings, technician availability, working calendars, and other constraints before assigning a resource.
+
+During the support phase, I analyzed the implementation and identified that the custom logic was querying multiple entities separately to gather the required information. While the functionality was working correctly, the approach resulted in additional database calls and increased response times as the volume of bookings grew.
+
+To address this, I redesigned the solution to leverage Dynamics 365's native Web API capabilities and optimized the data retrieval strategy instead of querying each component individually. I also refactored the code structure to reduce redundant operations, improve maintainability, and enhance overall performance.
+
+As a result:
+
+Reduced the number of database calls significantly.
+Improved scheduling response times and user experience.
+Enhanced scalability as the number of technicians and bookings increased.
+Reduced manual effort for dispatchers who previously had to verify technician availability and calendars manually.
+Increased stakeholder confidence in the solution after go-live.
+
+Key takeaway: This experience taught me that post-deployment support is critical because real-world usage patterns often reveal performance bottlenecks that may not be evident in UAT or lower environments. Proactive monitoring, performance optimization, and user feedback were essential to ensuring the long-term success of the solution.
+
+============================================================================================================================================================
+
+Q.How do you explain complex technical aspects to clients who may not have a technical background?
+When explaining complex technical concepts to non-technical clients, I focus on the business outcome rather than the technical implementation. I avoid technical jargon and use simple examples that relate to their day-to-day processes.
+
+For example, instead of explaining APIs, plugins, or workflows in detail, I would say:
+
+"The system automatically checks technician availability, existing appointments, and working hours before assigning a job, reducing manual effort and scheduling errors."
+
+I also use process flows, diagrams, or real business scenarios to make the solution easier to understand. Throughout the discussion, I encourage questions and confirm that the client is comfortable with the explanation before moving forward.
+
+Note : Take any functionality worked and tell the business context rather than how it is implemented 
+============================================================================================================================================================
+

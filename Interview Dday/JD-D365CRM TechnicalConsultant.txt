@@ -1,0 +1,19 @@
+
+About the Role
+We are seeking a skilled CRM Technical Consultant with deep expertise in Microsoft Dynamics 365. The ideal candidate will be responsible for designing, developing, and implementing robust D365 solutions to meet complex business requirements. You will play a key role in customizing applications, building integrations, and solving production issues.
+
+Must-Have Skills
+Proven experience in D365 CRM modules (Sales, Customer Service, Field Service).
+Strong technical proficiency in PowerApps and Power Automate. Experience with plugin development, JavaScript for form scripting, workflows, Business Process Flows, and Business Rules.
+Hands-on experience with solution deployment and management. Knowledge of integration techniques using Web API. 
+Practical experience with development tools like Visual Studio, XrmToolBox, and Postman.
+Excellent verbal and written communication, presentation, and interpersonal skills.
+Strong analytical and problem-solving abilities.
+Team player with a collaborative mindset and adaptability to changing requirements.
+
+Good-to-Have Skills
+Experience with CI/CD pipeline configuration for D365 deployments.
+Development knowledge of PCF Controls.
+Experience with Azure services (Functions, Logic Apps, Service Bus, Key Vault).
+Experience with Power BI development and large-scale data migration tools (KingswaySoft).
+Experience with SharePoint integration scenarios.

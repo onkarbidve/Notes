@@ -1,0 +1,27 @@
+Power automate tasks
+
+1.When the case is assigned to other user it should keep the value previous owner in a field 
+- Create the field which holds the value of previous owner 
+
+2.Send an email to the employee who has birthday today 
+Entity - Contact 
+Send notification to the contact - should be visible on the timeline of a contact as well as send an outlook notification to the contact.
+Email body should have a appropriate content.
+
+3. Send an approval request to the manager whether the contact record be created in system for the account Record on button click (Use instant flow)
+- The acccount owner will create the contact and the manager will be the user in the system.
+
+4. When the case is created in the system with the specific priority - High,low,medium 
+- based on the priority the case record should be assigned to the teams 
+- High priority - high priority cases 
+- low priority - low priority cases 
+- medium priority - medium priority cases 
+Entity-case 
+
+5. When the contact record is created in the system asscociated to account record then account record should be updated with total number of asscoiciated contacts . Similarly when the contact is updated or deleted then it should also update the account record.
+- Create one field in account record which keeps the track of total number of contact record
+
+6. When the email arrives in the crm the 
+
+
+

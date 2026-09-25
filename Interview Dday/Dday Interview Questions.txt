@@ -1,0 +1,119 @@
+1.Introduction - 
+- Experience 
+- Core skills - module and technologies you have worked on
+- Recent project worked on
+- Integration performed in project
+- How much years of experience you have in d365 crm and field service
+
+Fields service
+What are things that you have worked on field service - any end to end lifecycle or business process
+1.Scheduled boards
+2.Work orders
+3.Incident type
+ 
+=> Customization 
+2.Recent Plugin scenario you have worked on 
+Q.prevalidation vs preoperation
+Q.Different ways of debugging a plugin 
+Q.A user does not have permission to create a record. How can the system still create the record on behalf of that user?
+Q.What is Target?
+Q.Lets suppose i want to calculate the all related contacts of account - What are possible ways
+
+3.Recent Javascript scenario you have worked on
+
+Q. How to disable all fields on the form
+Q. How to call custom action and custom api in js syntax
+Q  What is expand 
+Q. What is custom api and tell me how to implement custom api step by step 
+Q. Difference between custom action and custom api 
+Q. Is it possible to pass custom parameters along with the execution context in D365 JavaScript?
+
+4. Power automate - Recent Power autmate flow you have worked on
+Q. Recent power automate flow worked on 
+Q. Difference between connection and connection reference 
+Q. How would you handle a scenario where the Power Automate ‘List rows’ action is limited to retrieving only 5000 records?
+Q. How do you filter the odata query
+
+2. Lets suppose we have two flows two different entities When a field1 on opportunity is getting updated the then flow 1 is getting triggered and this flow is updating the account field field2 now on update of  this field flow 2 is getting triggered which is on account which is updating the opprtunity field
+do not use select coloumns - infinite loops
+3. Lets suppose you want send birthdays emails to the employees of organization what will you do ?how will configure flow
+4. There is a flow that creates an Opportunity record link. How would you design it considering a production environment where values differ across environments, and how would you handle this without hardcoding values?
+
+=> Configuration 
+1.Classic workflows – types
+2.Scopes of wfs
+3.Difference between real-time & background wf
+4.What is custom wf and why use it ? How to debug custom workflow 
+5.Difference between classic wf & Power Automate flows
+5.Can PAF replace classic workflows
+6.When there is workflow which is not getting triggered for another user what could be the reasons?If there is any error related to workflows how will you troubleshoot
+7.What is custom API & how to configure it step by step implementation
+8.Have you done any deployment - CI/CD
+9.Types of environment – which type of env cannot be deleted
+10.IF there is a field which is set by the business rule then on change of field will the js trigger Ans-“Yes, JavaScript OnChange will trigger if a Business Rule updates the field on the form because it behaves like a client-side change. However, if the Business Rule runs at entity level on the server side, it will not trigger the OnChange event.
+11.Business rules - scopes and difference 
+12.Tools used 
+13.Alternate key - what are criteria of publishing the alternate key 
+14.After the deployment, you found out that your solution isn't working, but it was previously working in the development environment. What will you do in that case?
+15.If in the production environment, you found an issue which will take 2 days to resolve which is on critical priority, but due to business requirement it should be resolved immediately. What would you do in that particular scenario?
+16. Append and append to - Account and contact
+
+17.Workflow scenario based question - A workflow suddenly stopped working in production after working fine for months. No changes were made. What could be wrong?
+
+Prepare following questions -
+Number of projects completed to date 
+Total number of plugins written
+Total number of Power Automate flows created
+Total number of JavaScript scripts written
+Total number of custom workflows developed
+Total number of workflows created
+Total number of integrations completed
+Project domain (e.g., Healthcare, Entertainment, Automobile, etc.)
+Team size
+Your role
+Project duration (in months)
+Modules worked on	
+
+============================================================================================================================================================
+Kunal patel - Good integration and development knowledge overall ,No field service knowledge - considerable
+
+Customization -8/10
+Configuration - 6/10 
+Integration - 8/10
+Power Platform - 7/10
+Problem Solving - 7/10
+Communication -7/10
+Confidence - 8/10
+
+============================================================================================================================================================
+soham pal - No integration performed 
+
+Customization -8/10
+Configuration - 6/10 
+Integration - 0/10
+Power Platform - 7/10
+Problem Solving - 7/10
+Communication -8/10
+
+============================================================================================================================================================
+
+Aman shukla - Good field service knowledge, integration performed - considerable 
+
+customization - 7/10
+configuration - 7/10
+Integration - 8/10
+Power Platform - 8/10
+Problem Solving - 7/10
+Communication -7/10
+
+===========================================================================================================================================================
+seshubabu kandimalla -good knowledge 
+
+customization - 8/10
+configuration - 8/10
+Integration - 8/10
+Power Platform - 8/10
+Problem Solving - 8/10
+Communication -8/10
+
+

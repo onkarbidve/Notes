@@ -1,0 +1,64 @@
+1. Json formatter
+2. Copy the json and paste in json formatter
+3. Copy the encoded url of pagingcookie 
+4. Go to url encoder and decoder and decode the url twice to get formatted value 
+<cookie pagenumber=\"2\" pagingcookie=\"%253ccookie%2520page%253d%25221%2522%253e%253caccountid%2520last%253d%2522%257b74BC4CBE-A855-F111-A825-7C1E520F4A55%257d%2522%2520first%253d%2522%257bB3BF7D07-A955-F111-A825-6045BD72E14E%257d%2522%2520%252f%253e%253c%252fcookie%253e\" istracking=\"False\" />
+
+5.initialize a variable as paging cookie - string - raw paging cookie 
+paging cookie = <cookie pagenumber=\"2\" pagingcookie=\"%253ccookie%2520page%253d%25221%2522%253e%253caccountid%2520last%253d%2522%257b74BC4CBE-A855-F111-A825-7C1E520F4A55%257d%2522%2520first%253d%2522%257bB3BF7D07-A955-F111-A825-6045BD72E14E%257d%2522%2520%252f%253e%253c%252fcookie%253e\" istracking=\"False\" />
+
+6. Do until 
+
+if(equals(iterationIndexes('Do_until'), 0),'',concat('paging-cookie="',substring(first(skip(split(xml(setproperty(variables('RawJSON'), 'z', variables('PagingCookieOnly')))),'<'),1)),2),""))
+
+if(
+  equals(iterationIndexes('Do_until'), 0),
+  '',
+  concat(
+    'paging-cookie="',
+    variables('PagingCookieOnly'),
+    '"'
+  )
+)
+
+
+Pagingcookie-
+if(
+  empty(outputs('Get_Accounts')?['body']?['@microsoft.dynamics.crm.fetchxmlpagingcookie']),
+  '',
+  decodeUriComponent(
+    decodeUriComponent(
+      outputs('Get_Accounts')?['body']?['@microsoft.dynamics.crm.fetchxmlpagingcookie']
+    )
+  )
+)
+
+if(equals(iterationIndexes('Do_until'), 0),'',concat('paging-cookie="',substring(first(skip(split(xml(setproperty(variables('paging cookie only'), 'z', variables('PagingCookieOnly')))),'<'),1)),2),''''))
+
+
+paging cookie decode
+
+if(
+  empty(outputs('Get_Accounts')?['body']?['@microsoft.Dynamics.CRM.fetchxmlpagingcookie']),
+  '',
+  decodeUriComponent(
+    decodeUriComponent(
+      outputs('Get_Accounts')?['body']?['@microsoft.Dynamics.CRM.fetchxmlpagingcookie']
+    )
+  )
+)
+
+
+paging cookie only 
+
+if(empty(variables('PagingCookie')),'',replace(substring(variables('PagingCookie'),add(indexOf(variables('PagingCookie'), 'pagingcookie='), 14),''),'istracking="False" />',''))
+========================================================================================================================================================
+
+if(
+    empty(outputs('List_rows')?['body/@odata.nextLink']),
+    '',
+    decodeUriComponent(last(split(uriQuery(outputs('List_rows')?['body/@odata.nextLink']), 'skiptoken=')))
+)
+
+
+		ORD-38321-F4F4L9

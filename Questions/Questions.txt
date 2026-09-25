@@ -1,0 +1,28 @@
+What is power apps ?
+1. What are managed/unmanaged solutions? Is it possible to update components in a managed solution?	
+2. What is the root business unit ?
+3. What are the different ways of handling the duplicate records in system ? 
+4. What are the levels of security ? How it is achieved ?
+5. What is Business process flows and Actions ?
+6. Difference betweem the BPF and Workflow ?
+7. What are relationships - types => Parental , referential and custom 
+8. What are security roles ?
+9. Append and append to ? 
+10. How solution are deployed and types => Deploy one solution as managed 
+11. Types of environment 
+12. Difference between Real time and background workflow
+13. Difference between configurations and customization ?
+14. What are business rules - What are the actions/features can be done using the BR 
+15. Scopes in business rules ?
+16. Diff. between rollup and calculated fields?
+17. What is the purpose of workflows ?and what are different steps in it?
+18. What are forms views coloumns give real time example ?
+19. What are associated records of a particular table give me an example ?
+20. User level for create privilege in security role
+21. What is lookup ?
+
+Scenario 
+1. How will you create a forms that will only visible to particular user with a certain security role ?
+2. I want show field subamount only when Amount is greater than 10000 ?
+
+
