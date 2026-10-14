@@ -1,6 +1,6 @@
-===========================
-1. Visual Studio and Github
-===========================
+<==========================>
+| Visual Studio and Github |
+<==========================>
 
 1. Push code in git repository 
 
@@ -563,9 +563,11 @@ Person B changes it to:
 When combining the documents, someone must decide which text is correct. That's exactly what a Git conflict is
 
 ============================================================================================================================================================
-==========
-Git Notes 
-==========
+
+<==========>
+|Git Notes |
+<==========>
+
 git init
  Creates a new Git repository by creating a hidden .git folder in the current directory.
 
