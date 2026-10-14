@@ -1,4 +1,6 @@
+===========================
 1. Visual Studio and Github
+===========================
 
 1. Push code in git repository 
 
@@ -559,3 +561,211 @@ Person B changes it to:
 "Contact Name"
 
 When combining the documents, someone must decide which text is correct. That's exactly what a Git conflict is
+
+============================================================================================================================================================
+==========
+Git Notes 
+==========
+git init
+ Creates a new Git repository by creating a hidden .git folder in the current directory.
+
+git add .
+ Stages all new, modified, and deleted files for the next commit.
+
+git commit -m "Initial commit"
+ Creates a commit (snapshot) of all staged changes.
+
+git branch -M main
+ Renames the current branch to main.
+
+git remote add origin https://github.com/onkarbidve/Notes.git
+ Connects the local repository to the GitHub repository.
+
+git remote -v
+ Displays the fetch and push URLs configured for the repository.
+
+git push -u origin main
+ Pushes code to GitHub and sets the upstream branch. Fails if remote already contains unrelated commits.
+
+git push -u origin main --force
+ Forcefully replaces the GitHub repository content with local content.
+
+git status
+ Shows modified, staged, untracked, and deleted files.
+
+git branch
+ Displays the current branch.
+
+git log --oneline
+ Shows commit history in a compact format.
+
+git ls-remote origin
+ Displays branches and commit hashes available in the remote repository.
+
+git rm --cached <file>
+ Removes a file from Git tracking but keeps it on disk.
+
+rm -rf .git
+ Completely removes Git history and repository configuration. Useful when starting fresh.
+
+git show <commit-id>
+ Displays details of a specific commit and files included in it.
+
+git ls-files
+ Lists all files currently tracked by Git.
+
+git ls-files --stage
+ Lists tracked files with modes such as:
+
+100644 = normal file
+160000 = submodule
+
+find . -type f | grep -i "connection"
+ Searches for files containing "connection" in the filename.
+
+git grep -n "ClientSecret"
+ Searches all tracked files for ClientSecret.
+
+git grep -n "Secret"
+ Searches all tracked files for the word Secret.
+
+GitHub Push Protection Error:
+
+GH013: Push cannot contain secrets
+
+
+Means GitHub detected credentials such as:
+
+Azure Client Secret
+Connection String Secrets
+API Keys
+Tokens
+
+Secret removal approach:
+
+Remove secret value.
+Commit again.
+Push.
+If secret exists in history, recreate Git history using rm -rf .git.
+
+Why deleting the file later did not work:
+
+GitHub scans all commits being pushed.
+Secret existed in the initial commit history.
+
+Why .git was created:
+
+Running git init creates a hidden .git folder.
+.git stores commits, branches, remotes, and configuration.
+
+Why "embedded git repository" warning appeared:
+
+warning: adding embedded git repository
+
+
+Means a folder already contained its own .git directory.
+
+Example structure:
+
+NotesofD365&CRM
+├── .git
+├── General Notes
+│   └── .git
+├── Javascript Notes
+│   └── .git
+└── Notepad Notes
+    └── .git
+
+
+create mode 160000 General Notes
+
+Indicates Git added the folder as a submodule, not as a normal folder.
+
+To convert submodule to a normal folder:
+
+rm -rf "General Notes/.git"
+rm -rf "Javascript Notes/.git"
+rm -rf "Notepad Notes/.git"
+
+
+Remove submodule references:
+
+git rm --cached "General Notes"
+git rm --cached "Javascript Notes"
+git rm --cached "Notepad Notes"
+
+
+Add them back as normal folders:
+
+git add .
+git commit -m "Convert submodules to folders"
+git push origin main
+
+
+.gitignore purpose: Prevents unwanted files from being committed.
+
+Example .gitignore:
+
+~$*
+*.tmp
+desktop.ini
+Thumbs.db
+
+
+Office temporary files to ignore:
+
+~$D365CRM Notes.docx
+~WRL0005.tmp
+~WRL0350.tmp
+~WRL2287.tmp
+
+
+Word files (.docx) can be stored in GitHub normally.
+
+PDFs, Excel files, images, text files, and HTML files can also be stored in GitHub.
+
+If GitHub says:
+
+remote: Repository rule violations found
+
+
+then a repository rule (usually secret scanning) is blocking the push.
+
+If GitHub says:
+
+! [rejected] main -> main (fetch first)
+
+
+then the remote repository already has commits not present locally.
+
+If you want local content to completely replace remote content:
+
+git push origin main --force
+
+
+Correct final repository location for all notes:
+
+NotesofD365&CRM
+├── Functional Notes
+├── General Notes
+├── Interview Dday
+├── Javascript Notes
+├── Notepad Notes
+├── Plugin Notes
+├── PowerAutomate Notes
+├── Questions
+└── Training Tasks
+
+
+Best workflow going forward:
+
+git add .
+git commit -m "Describe changes"
+git push
+
+
+Since main is now tracking GitHub, future updates only need:
+
+git add .
+git commit -m "New changes"
+git push
